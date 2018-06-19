@@ -2,7 +2,7 @@
 %% This is file `dutmsc.cls',
 %%
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{dutmsc}
+\ProvidesClass{uvamsc}
               [2012/10/07 v1.0.8
  University of Amsterdam Master's Thesis Style]
 
@@ -459,13 +459,21 @@
 \ifthenelse{ \equal{\mscbackpicture}{} }{}{
 \AddToShipoutPicture*{\BackgroundPicture{\mscbackpicture}}
 }%
-% \AddToShipoutPicture*{\TuPicture{./figs/TUD_bies_LR_A4_ENG}} % <- old logo
+\centering
+\vfill
 \ifpdf
-  \AddToShipoutPicture*{\TuPicture{./figs/uva_logo/fnwi_pdf}} % <- new logo, pdf format
+\hspace*{-0.1\textwidth}\includegraphics{./figs/uva_logo/fnwi_pdf}
 \else
-  \AddToShipoutPicture*{\TuPicture{./figs/uva_logo/fnwi_eps}} % <- new logo, eps format
-\fi
+\hspace*{-0.1\textwidth}\includegraphics{./figs/uva_logo/fnwi_eps}
+\vfill
+% \AddToShipoutPicture*{\TuPicture{./figs/TUD_bies_LR_A4_ENG}} % <- old logo
+%\ifpdf
+%  \AddToShipoutPicture*{\TuPicture{./figs/uva_logo/fnwi_pdf}} % <- new logo, pdf format
+%\else
+%  \AddToShipoutPicture*{\TuPicture{./figs/uva_logo/fnwi_eps}} % <- new logo, eps format
+%\fi
     \begin{center}
+   	\large{\textsc{MSc \mscdepartment}}\\[2mm]
     \large{\textsc{Master of Science Thesis}}%\\
     \end{center}%
     \newcommand{\HRule}{\rule{\linewidth}{1mm}}
@@ -476,7 +484,8 @@
     \begin{flushright}
     \huge{\textbf{\textsf{\msctitle}}}\\ \Large{\textbf{\textsf{\mscsubtitle}}} \\[5mm]
 %
-    \Large{\textbf{\textsf{ \mscname}}}
+    \Large{\textbf{\textsf{ \mscname}}} \\
+    \small{\textbf{\textsf{(11392045)}}}
     \end{flushright}
     \HRule
     \\ \mscdate \\
@@ -529,7 +538,7 @@
 
 \bigskip
 \bigskip
-An electronic version of this thesis is available at \url{http://scriptiesonline.uba.uva.nl//}.
+An electronic version of this thesis is available at \url{http://scriptiesonline.uba.uva.nl}.
 
 
 \end{center}
@@ -577,8 +586,8 @@ All rights reserved.
 %\large
 %
 The undersigned hereby certify that they have read and recommend
-to the Faculty of \mscfaculty\ for acceptance a thesis
-entitled \textbf{``\msctitle''} by
+to the Department of \mscdepartment\ for acceptance a thesis
+titled \textbf{``\msctitle''} by
 \textbf{\mscname} in partial fulfillment of the
 requirements for the degree of \textbf{Master of Science}.
 
