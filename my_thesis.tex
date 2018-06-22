@@ -61,7 +61,7 @@
 \usepackage{psfrag}
 \usepackage{float}
 \usepackage{nomencl}
-%\usepackage{wrapfig}
+\usepackage{subcaption}
 \usepackage{lineno,hyperref}
 \usepackage{blindtext}
 \captionsetup[table]{position=bottom}
@@ -141,13 +141,15 @@
     %\input{title}
     %Introduction Chapter
     \include{introduction}
-    %Theoretical Background
-    \include{theory}
-    % Modelling Strategies
-    \include{Proposed_Models}%
+    %Technical Background
+    \include{background}
+    %Motivation
+    \include{motivation}
     %Datasets Used
     \include{datasets}
-    % Numerical Details and Algorithms
+    % Modelling Strategies
+    \include{Proposed_Models}%
+    % Methodology and Experiments
     \include{Experiments}
     %Results and Discussions
     \include{results}

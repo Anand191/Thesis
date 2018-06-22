@@ -215,7 +215,7 @@
 % version 4.2 of nomencl
 \RequirePackage[notintoc]{nomencl}[2005/09/22]
 %
-\RequirePackage[labelfont={rm,md,up},format=hang]{subfig}
+%\RequirePackage[labelfont={rm,md,up},format=hang]{subfig}
 \RequirePackage{caption}
 % multiline captions indent just like the captions of the subfigures
 \captionsetup{format=hang}
