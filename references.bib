@@ -1,0 +1,131 @@
+@article{Cho2014,
+	abstract = {Neural machine translation is a relatively new approach to statistical machine trans-lation based purely on neural networks. The neural machine translation models of-ten consist of an encoder and a decoder. The encoder extracts a fixed-length repre-sentation from a variable-length input sen-tence, and the decoder generates a correct translation from this representation. In this paper, we focus on analyzing the proper-ties of the neural machine translation us-ing two models; RNN Encoder–Decoder and a newly proposed gated recursive con-volutional neural network. We show that the neural machine translation performs relatively well on short sentences without unknown words, but its performance de-grades rapidly as the length of the sentence and the number of unknown words in-crease. Furthermore, we find that the pro-posed gated recursive convolutional net-work learns a grammatical structure of a sentence automatically.},
+	archivePrefix = {arXiv},
+	arxivId = {1409.1259},
+	author = {Cho, Kyunghyun and Merrienboer, Bart Van and Bahdanau, Dzmitry and Bengio, Yoshua},
+	doi = {10.3115/v1/W14-4012},
+	eprint = {1409.1259},
+	file = {:home/anand/UvA/Year 2/Master Thesis/Literature/Attention/W14-4012.pdf:pdf},
+	isbn = {9781937284961},
+	journal = {Ssst-2014},
+	mendeley-groups = {Thesis},
+	pages = {103--111},
+	title = {{On the Properties of Neural Machine Translation : Encoder – Decoder Approaches}},
+	year = {2014}
+}
+
+@article{Bahdanau2014,
+	abstract = {Neural machine translation is a recently proposed approach to machine translation. Unlike the traditional statistical machine translation, the neural machine translation aims at building a single neural network that can be jointly tuned to maximize the translation performance. The models proposed recently for neural machine translation often belong to a family of encoder-decoders and consists of an encoder that encodes a source sentence into a fixed-length vector from which a decoder generates a translation. In this paper, we conjecture that the use of a fixed-length vector is a bottleneck in improving the performance of this basic encoder-decoder architecture, and propose to extend this by allowing a model to automatically (soft-)search for parts of a source sentence that are relevant to predicting a target word, without having to form these parts as a hard segment explicitly. With this new approach, we achieve a translation performance comparable to the existing state-of-the-art phrase-based system on the task of English-to-French translation. Furthermore, qualitative analysis reveals that the (soft-)alignments found by the model agree well with our intuition.},
+	archivePrefix = {arXiv},
+	arxivId = {1409.0473},
+	author = {Bahdanau, Dzmitry and Cho, Kyunghyun and Bengio, Yoshua},
+	doi = {10.1146/annurev.neuro.26.041002.131047},
+	eprint = {1409.0473},
+	file = {:home/anand/UvA/Year 2/Master Thesis/Literature/Attention/1409.0473.pdf:pdf},
+	isbn = {0147-006X (Print)},
+	issn = {0147-006X},
+	mendeley-groups = {Thesis},
+	pages = {1--15},
+	pmid = {14527267},
+	title = {{Neural Machine Translation by Jointly Learning to Align and Translate}},
+	url = {http://arxiv.org/abs/1409.0473},
+	year = {2014}
+}
+
+@article{Luong2015,
+	abstract = {An attentional mechanism has lately been used to improve neural machine translation (NMT) by selectively focusing on parts of the source sentence during translation. However, there has been little work exploring useful architectures for attention-based NMT. This paper examines two simple and effective classes of attentional mechanism: a global approach which always attends to all source words and a local one that only looks at a subset of source words at a time. We demonstrate the effectiveness of both approaches over the WMT translation tasks between English and German in both directions. With local attention, we achieve a significant gain of 5.0 BLEU points over non-attentional systems which already incorporate known techniques such as dropout. Our ensemble model using different attention architectures has established a new state-of-the-art result in the WMT'15 English to German translation task with 25.9 BLEU points, an improvement of 1.0 BLEU points over the existing best system backed by NMT and an n-gram reranker.},
+	archivePrefix = {arXiv},
+	arxivId = {1508.04025},
+	author = {Luong, Minh-Thang and Pham, Hieu and Manning, Christopher D.},
+	doi = {10.18653/v1/D15-1166},
+	eprint = {1508.04025},
+	file = {:home/anand/UvA/Year 2/Master Thesis/Literature/Attention/1508.04025.pdf:pdf},
+	isbn = {9781941643327},
+	issn = {10495258},
+	mendeley-groups = {Thesis},
+	pmid = {14527267},
+	title = {{Effective Approaches to Attention-based Neural Machine Translation}},
+	url = {http://arxiv.org/abs/1508.04025},
+	year = {2015}
+}
+
+@article{Graves2016,
+	abstract = {This paper introduces Adaptive Computation Time (ACT), an algorithm that allows recurrent neural networks to learn how many computational steps to take between receiving an input and emitting an output. ACT requires minimal changes to the network architecture, is deterministic and differentiable, and does not add any noise to the parameter gradients. Experimental results are provided for four synthetic problems: determining the parity of binary vectors, applying binary logic operations, adding integers, and sorting real numbers. Overall, performance is dramatically improved by the use of ACT, which successfully adapts the number of computational steps to the requirements of the problem. We also present character-level language modelling results on the Hutter prize Wikipedia dataset. In this case ACT does not yield large gains in performance; however it does provide intriguing insight into the structure of the data, with more computation allocated to harder-to-predict transitions, such as spaces between words and ends of sentences. This suggests that ACT or other adaptive computation methods could provide a generic method for inferring segment boundaries in sequence data.},
+	archivePrefix = {arXiv},
+	arxivId = {1603.08983},
+	author = {Graves, Alex},
+	doi = {10.475/123},
+	eprint = {1603.08983},
+	file = {:home/anand/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Graves - 2016 - Adaptive Computation Time for Recurrent Neural Networks.pdf:pdf},
+	isbn = {9781450335423},
+	issn = {0927-7099},
+	mendeley-groups = {Pondering - Meetings},
+	pages = {1--19},
+	title = {{Adaptive Computation Time for Recurrent Neural Networks}},
+	url = {http://arxiv.org/abs/1603.08983},
+	year = {2016}
+}
+
+@article{Baroni2017,
+	abstract = {With machine learning successfully applied to new daunting problems almost every day, general AI starts looking like an attainable goal. However, most current research focuses instead on important but narrow applications, such as image classification or machine translation. We believe this to be largely due to the lack of objective ways to measure progress towards broad machine intelligence. In order to fill this gap, we propose here a set of concrete desiderata for general AI, together with a platform to test machines on how well they satisfy such desiderata, while keeping all further complexities to a minimum.},
+	archivePrefix = {arXiv},
+	arxivId = {1701.08954},
+	author = {Baroni, Marco and Joulin, Armand and Jabri, Allan and Kruszewski, Germ{\`{a}}n and Lazaridou, Angeliki and Simonic, Klemen and Mikolov, Tomas},
+	eprint = {1701.08954},
+	file = {:home/anand/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Baroni et al. - 2017 - CommAI Evaluating the first steps towards a useful general AI.pdf:pdf},
+	mendeley-groups = {Pondering - Meetings,Thesis},
+	pages = {1--9},
+	title = {{CommAI: Evaluating the first steps towards a useful general AI}},
+	url = {http://arxiv.org/abs/1701.08954},
+	year = {2017}
+}
+
+@article{LSTM,
+	abstract = {Learning to store information over extended time intervals by recurrent backpropagation takes a very long time, mostly because of insufficient, decaying error backflow. We briefly review Hochreiter's (1991) analysis of this problem, then address it b...},
+	archivePrefix = {arXiv},
+	arxivId = {1206.2944},
+	author = {Hochreiter, Sepp and Schmidhuber, Jurgen J{\"{u}}rgen},
+	doi = {10.1162/neco.1997.9.8.1735},
+	eprint = {1206.2944},
+	file = {:home/anand/UvA/Year 2/Master Thesis/Literature/Fancy Networks(With Memory)/LSTM.pdf:pdf},
+	isbn = {08997667 (ISSN)},
+	issn = {0899-7667},
+	journal = {Neural Computation},
+	mendeley-groups = {Thesis},
+	number = {8},
+	pages = {1--32},
+	pmid = {9377276},
+	title = {{Long short-term memory}},
+	url = {http://www.mitpressjournals.org/doi/abs/10.1162/neco.1997.9.8.1735{\%}5Cnfile:///Files/F0/F0267A41-D807-4137-A5AC-8D9A84E9E12C.pdf{\%}5Cnpapers3://publication/doi/10.1162/neco.1997.9.8.1735{\%}5Cnfile:///Files/B1/B10E2649-D486-4D93-B71B-80023681156B.pdf},
+	volume = {9},
+	year = {1997}
+}
+
+@article{GRU,
+	abstract = {In this paper, we propose a novel neural network model called RNN Encoder-Decoder that consists of two recurrent neural networks (RNN). One RNN encodes a sequence of symbols into a fixed-length vector representation, and the other decodes the representation into another sequence of symbols. The encoder and decoder of the proposed model are jointly trained to maximize the conditional probability of a target sequence given a source sequence. The performance of a statistical machine translation system is empirically found to improve by using the conditional probabilities of phrase pairs computed by the RNN Encoder-Decoder as an additional feature in the existing log-linear model. Qualitatively, we show that the proposed model learns a semantically and syntactically meaningful representation of linguistic phrases.},
+	archivePrefix = {arXiv},
+	arxivId = {1406.1078},
+	author = {Cho, Kyunghyun and van Merrienboer, Bart and Gulcehre, Caglar and Bahdanau, Dzmitry and Bougares, Fethi and Schwenk, Holger and Bengio, Yoshua},
+	doi = {10.3115/v1/D14-1179},
+	eprint = {1406.1078},
+	file = {:home/anand/UvA/Year 2/Master Thesis/Literature/Fancy Networks(With Memory)/GRU.pdf:pdf},
+	isbn = {9781937284961},
+	issn = {09205691},
+	mendeley-groups = {Thesis},
+	pmid = {2079951},
+	title = {{Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation}},
+	url = {http://arxiv.org/abs/1406.1078},
+	year = {2014}
+}
+
+
+
+@misc{olah,
+	mendeley-groups = {Pondering - Meetings},
+	author = {Olah, Christopher},
+	title = {{Understanding LSTM Networks -- colah's blog}},
+	url = {http://colah.github.io/posts/2015-08-Understanding-LSTMs/},
+	urldate = {2018-06-29},
+	year = {2015}
+}
+

@@ -36,18 +36,21 @@
 % if defined here with a non-zero (e.g. 1) argument, an entry will be added to 
 % the table of contents for the list of figures and the list of tables,
 % else they will not appear in  the toc.
+
 \loflotintoc{1}
 %
 % default install of latex on linux (tetex) does not include the apacite package, so using a local version
 % if your latex distribution does provide it, you can uncomment the next two lines (and comment
 % the two lines after that)
 % \usepackage{apacite}%
+\usepackage{natbib}%
 % \bibliographystyle{apacite}%
-% \usepackage{./local/apacite/apacite}%
+%\usepackage{./local/apacite/apacite}%
 %
 % If you prefer references as numbers, comment the following line and uncomment the one thereafter
-% \bibliographystyle{./local/apacite/apacite}%
-\bibliographystyle{plain}
+%\bibliographystyle{./local/apacite/apacite}%
+\bibliographystyle{plainnat}
+%\bibliographystyle{abbrvnat}
 %
 %
 % use package breakurl to break url in sensible places (such as in www references)
@@ -160,7 +163,7 @@
     %
     %
     % Bibliography
-    \bibliography{my_thesis}
+    \bibliography{references}
     %\printbib{my_thesis}%
     %
     \appendix%
