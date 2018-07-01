@@ -1,0 +1,20 @@
+\begin{thenomenclature} 
+
+ \nomgroup{A}
+
+  \item [{$\mu_f$}]\begingroup dynamic viscosity of fluid\nomeqref {1.0}
+		\nompageref{1}
+  \item [{$\nu_f$}]\begingroup kinematic viscosity of fluid\nomeqref {1.0}
+		\nompageref{1}
+  \item [{$\rho_f$}]\begingroup density of fluid\nomeqref {1.0}
+		\nompageref{1}
+  \item [{$\rho_f$}]\begingroup density of particle\nomeqref {1.0}
+		\nompageref{1}
+  \item [{$C_{p,f}$}]\begingroup specific heat capacity of fluid\nomeqref {1.0}
+		\nompageref{1}
+  \item [{$C_{p,p}$}]\begingroup specific heat capacity of particle\nomeqref {1.0}
+		\nompageref{1}
+  \item [{$k_f$}]\begingroup thermal conductivity of fluid\nomeqref {1.0}
+		\nompageref{1}
+
+\end{thenomenclature}

@@ -1,7 +1,7 @@
 \chapter{Background}
 This chapter provides a brief technical overview of the models that we will frequently encounter in the rest of the thesis. A fundamental understanding of these systems is essential for appreciating the problems associated with them and the potential solution for overcoming those problems, which will be discussed in the subsequent chapters.
 
-\section{RNN - A non linear dynamical system}
+\section{RNN - A non linear dynamical system} \label{RNN}
 We frequently encounter data that is temporal in nature. A few obvious examples would  be, audio signals, videos signals, time series of a stock price and natural language (the holy grail of AI!). While traditional feed-forward neural networks are excellent at non linear curve fitting and classification tasks, it is unclear as to how they will approach the problem of predicting the value of a temporal signal $T$ at time $t$ given the states $T_{0}, T_{1}....T_{t-1}$ such that the states over time are not i.i.d. Human beings solve such problems by compressing and storing the previous states in memory and then using that information for predicting the state $T_t$. A conventional feed-forward network such as a MLP is inherently memoryless.
 
 Recurrent neural networks overcome this restriction by having feedback loops which allow information to be carried from the current time step to the next. While the notion of implementing memory via feedback loops might seem daunting at first the architecture is refreshingly very simple. In a process known as unrolling a RNN can be seen as a sequence of MLPs (at different time steps) stacked together. More specifically, RNN maintains a memory across time-steps by projecting the information at any given time step $t$ onto a hidden(latent) state through parameters $\theta$ which are shared across different time-steps. Fig \ref{bck:rnn} shows a rolled and unrolled recurrent network.
@@ -136,19 +136,19 @@ The fundamental principle behind the working of a LSTM is alter the memory vecto
 
 
 \begin{equation}
-i= \sigma(x_t U^{(i)} m_{t-1}W^{(i)})
+i= \sigma(x_t U^{(i)}, m_{t-1}W^{(i)})
 \end{equation}
 
 \begin{equation}
-f= \sigma(x_t U^{(f)} m_{t-1}W^{(f)})
+f= \sigma(x_t U^{(f)}, m_{t-1}W^{(f)})
 \end{equation}
 
 \begin{equation}
-o= \sigma(x_t U^{(o)} m_{t-1}W^{(o)})
+o= \sigma(x_t U^{(o)}, m_{t-1}W^{(o)})
 \end{equation}
 
 \begin{equation}
-\widetilde {c_t}= \tanh(x_t U^{(g)} m_{t-1}W^{(g)})
+\widetilde {c_t}= \tanh(x_t U^{(g)}, m_{t-1}W^{(g)})
 \end{equation}
 
 \begin{equation}
@@ -168,9 +168,32 @@ The hidden state of a LSTM cell is the output which is then multiplied with the 
 \end{itemize}
 
 \subsection{GRU}
-The GRU introduced by \cite{GRU} area new type of gated RNN architecture which is has fewer parameters due to the lack of an output gate and is there computationally less complex in comparison to a LSTM.
+The Gated Recurrent Unit (GRU) introduced by \cite{GRU} are a new type of gated RNN architecture whose details are as follows:
 
-Equations of GRU
+\begin{equation}
+m_t= (1-z_t)m_{t-1} + z_t\widetilde{m_t} %\sigma(x_t U^{(i)} m_{t-1}W^{(i)})
+\end{equation}
+
+\begin{equation}
+z_t= \sigma(x_t U^{(z)}, m_{t-1}W^{(z)})
+\end{equation}
+
+\begin{equation}
+\widetilde {m_t}= \tanh(x_t U^{(g)},r_t \odot m_{t-1}W^{(g)})
+\end{equation}
+
+\begin{equation}
+r_t= \sigma(x_t U^{(r)}, m_{t-1}W^{(r)})
+\end{equation}
+
+\begin{itemize}
+	\item \textbf{update gate $z_{(t)}$:} The update gate is the filter which decides how much of the activations/memory to be update at any given time step.
+	\item \textbf{modulation gate $g_{(t)}$:} Just as in the case of the LSTM the modulation gate serves the purpose of yielding candidate memories for the new cell state.
+	\item \textbf{reset gate $r_{(t)}$:} The reset gate is similar to the forget gate in a LSTM. When its value is close to zero it allows the cell to forget the previously computed state.
+	\item \textbf{hidden state $m_{(t)}$:} The current hidden state is a weighted average of the previous hidden state and the candidate hidden state weighted by 1-update gate and the update gate respectively.
+\end{itemize}
+
+While there are a lot of similarities between a GRU and a LSTM the most striking difference is the lack of an output gate in a GRU. Unlike a LSTM a GRU doesn't control how much of its internal memory to expose to the rest of the units in the network. The GRU therefore has fewer parameters due to the lack of an output gate and is computationally less complex in comparison to a LSTM.
 
 \section{Seq2Seq Models}\label{background:s2s}
 \begin{figure}
@@ -180,11 +203,11 @@ Equations of GRU
 		\else
 		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/s2s-eps}
 		\fi
-		\caption{\small Schematic of a Seq2Seq \cite{s2s}}
+		\caption{\small Schematic of a Seq2Seq}
 		\label{bck:s2s}
 	\end{minipage}
 \end{figure}
 
-Sequence-to-sequence (seq2seq) models introduced by Sutskever et al. , Cho et al. are a class of generative models that let us generate an output sequence when we are given an input sequence. They have found immense success in the fields of machine translation, speech recognition, question answering etc. 
+Sequence-to-sequence (seq2seq) models introduced by \cite{Sutskever2014}, \cite{GRU} are a class of probabilistic generative models that let us learn the mapping from a variable length input to a variable length output. While initially conceived for machine translation, they have been applied successfully to the tasks of speech recognition, question answering, text summarization etc.
 
-Details about the latent space, and the probabilistic generative model.
+Neural networks have been shown to be excellent at learning rich representation from data without the need for extensive feature engineering (give some refs here). RNNs are especially adept at learning features and long term dependencies in sequential data (section \ref{RNN}). The simple yet effective idea behind a seq2seq model is learning a fixed size (latent) representation of a variable length input and then generating a variable length output by conditioning it on this latent representation and the previous portion of the output sequence.
