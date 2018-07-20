@@ -211,3 +211,11 @@ While there are a lot of similarities between a GRU and a LSTM the most striking
 Sequence-to-sequence (seq2seq) models introduced by \cite{Sutskever2014}, \cite{GRU} are a class of probabilistic generative models that let us learn the mapping from a variable length input to a variable length output. While initially conceived for machine translation, they have been applied successfully to the tasks of speech recognition, question answering, text summarization etc.
 
 Neural networks have been shown to be excellent at learning rich representation from data without the need for extensive feature engineering (give some refs here). RNNs are especially adept at learning features and long term dependencies in sequential data (section \ref{RNN}). The simple yet effective idea behind a seq2seq model is learning a fixed size (latent) representation of a variable length input and then generating a variable length output by conditioning it on this latent representation and the previous portion of the output sequence.
+
+\begin{equation}
+	h^{(t)} = f(x^{(t)}, h^{(t-1)}, v)
+\end{equation}
+
+\begin{equation}
+	x^{(t+1)} = g(x^{(t)}, h^{(t)}, v)
+\end{equation}
