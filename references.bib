@@ -1,5 +1,4 @@
 @article{Cho2014,
-	abstract = {Neural machine translation is a relatively new approach to statistical machine trans-lation based purely on neural networks. The neural machine translation models of-ten consist of an encoder and a decoder. The encoder extracts a fixed-length repre-sentation from a variable-length input sen-tence, and the decoder generates a correct translation from this representation. In this paper, we focus on analyzing the proper-ties of the neural machine translation us-ing two models; RNN Encoder–Decoder and a newly proposed gated recursive con-volutional neural network. We show that the neural machine translation performs relatively well on short sentences without unknown words, but its performance de-grades rapidly as the length of the sentence and the number of unknown words in-crease. Furthermore, we find that the pro-posed gated recursive convolutional net-work learns a grammatical structure of a sentence automatically.},
 	archivePrefix = {arXiv},
 	arxivId = {1409.1259},
 	author = {Cho, Kyunghyun and Merrienboer, Bart Van and Bahdanau, Dzmitry and Bengio, Yoshua},
@@ -15,7 +14,6 @@
 }
 
 @article{Bahdanau2014,
-	abstract = {Neural machine translation is a recently proposed approach to machine translation. Unlike the traditional statistical machine translation, the neural machine translation aims at building a single neural network that can be jointly tuned to maximize the translation performance. The models proposed recently for neural machine translation often belong to a family of encoder-decoders and consists of an encoder that encodes a source sentence into a fixed-length vector from which a decoder generates a translation. In this paper, we conjecture that the use of a fixed-length vector is a bottleneck in improving the performance of this basic encoder-decoder architecture, and propose to extend this by allowing a model to automatically (soft-)search for parts of a source sentence that are relevant to predicting a target word, without having to form these parts as a hard segment explicitly. With this new approach, we achieve a translation performance comparable to the existing state-of-the-art phrase-based system on the task of English-to-French translation. Furthermore, qualitative analysis reveals that the (soft-)alignments found by the model agree well with our intuition.},
 	archivePrefix = {arXiv},
 	arxivId = {1409.0473},
 	author = {Bahdanau, Dzmitry and Cho, Kyunghyun and Bengio, Yoshua},
@@ -28,12 +26,10 @@
 	pages = {1--15},
 	pmid = {14527267},
 	title = {{Neural Machine Translation by Jointly Learning to Align and Translate}},
-	url = {http://arxiv.org/abs/1409.0473},
 	year = {2014}
 }
 
 @article{Luong2015,
-	abstract = {An attentional mechanism has lately been used to improve neural machine translation (NMT) by selectively focusing on parts of the source sentence during translation. However, there has been little work exploring useful architectures for attention-based NMT. This paper examines two simple and effective classes of attentional mechanism: a global approach which always attends to all source words and a local one that only looks at a subset of source words at a time. We demonstrate the effectiveness of both approaches over the WMT translation tasks between English and German in both directions. With local attention, we achieve a significant gain of 5.0 BLEU points over non-attentional systems which already incorporate known techniques such as dropout. Our ensemble model using different attention architectures has established a new state-of-the-art result in the WMT'15 English to German translation task with 25.9 BLEU points, an improvement of 1.0 BLEU points over the existing best system backed by NMT and an n-gram reranker.},
 	archivePrefix = {arXiv},
 	arxivId = {1508.04025},
 	author = {Luong, Minh-Thang and Pham, Hieu and Manning, Christopher D.},
@@ -45,12 +41,10 @@
 	mendeley-groups = {Thesis},
 	pmid = {14527267},
 	title = {{Effective Approaches to Attention-based Neural Machine Translation}},
-	url = {http://arxiv.org/abs/1508.04025},
 	year = {2015}
 }
 
 @article{Graves2016,
-	abstract = {This paper introduces Adaptive Computation Time (ACT), an algorithm that allows recurrent neural networks to learn how many computational steps to take between receiving an input and emitting an output. ACT requires minimal changes to the network architecture, is deterministic and differentiable, and does not add any noise to the parameter gradients. Experimental results are provided for four synthetic problems: determining the parity of binary vectors, applying binary logic operations, adding integers, and sorting real numbers. Overall, performance is dramatically improved by the use of ACT, which successfully adapts the number of computational steps to the requirements of the problem. We also present character-level language modelling results on the Hutter prize Wikipedia dataset. In this case ACT does not yield large gains in performance; however it does provide intriguing insight into the structure of the data, with more computation allocated to harder-to-predict transitions, such as spaces between words and ends of sentences. This suggests that ACT or other adaptive computation methods could provide a generic method for inferring segment boundaries in sequence data.},
 	archivePrefix = {arXiv},
 	arxivId = {1603.08983},
 	author = {Graves, Alex},
@@ -62,12 +56,10 @@
 	mendeley-groups = {Pondering - Meetings},
 	pages = {1--19},
 	title = {{Adaptive Computation Time for Recurrent Neural Networks}},
-	url = {http://arxiv.org/abs/1603.08983},
 	year = {2016}
 }
 
 @article{Baroni2017,
-	abstract = {With machine learning successfully applied to new daunting problems almost every day, general AI starts looking like an attainable goal. However, most current research focuses instead on important but narrow applications, such as image classification or machine translation. We believe this to be largely due to the lack of objective ways to measure progress towards broad machine intelligence. In order to fill this gap, we propose here a set of concrete desiderata for general AI, together with a platform to test machines on how well they satisfy such desiderata, while keeping all further complexities to a minimum.},
 	archivePrefix = {arXiv},
 	arxivId = {1701.08954},
 	author = {Baroni, Marco and Joulin, Armand and Jabri, Allan and Kruszewski, Germ{\`{a}}n and Lazaridou, Angeliki and Simonic, Klemen and Mikolov, Tomas},
@@ -76,7 +68,6 @@
 	mendeley-groups = {Pondering - Meetings,Thesis},
 	pages = {1--9},
 	title = {{CommAI: Evaluating the first steps towards a useful general AI}},
-	url = {http://arxiv.org/abs/1701.08954},
 	year = {2017}
 }
 
@@ -102,7 +93,6 @@
 }
 
 @article{GRU,
-	abstract = {In this paper, we propose a novel neural network model called RNN Encoder-Decoder that consists of two recurrent neural networks (RNN). One RNN encodes a sequence of symbols into a fixed-length vector representation, and the other decodes the representation into another sequence of symbols. The encoder and decoder of the proposed model are jointly trained to maximize the conditional probability of a target sequence given a source sequence. The performance of a statistical machine translation system is empirically found to improve by using the conditional probabilities of phrase pairs computed by the RNN Encoder-Decoder as an additional feature in the existing log-linear model. Qualitatively, we show that the proposed model learns a semantically and syntactically meaningful representation of linguistic phrases.},
 	archivePrefix = {arXiv},
 	arxivId = {1406.1078},
 	author = {Cho, Kyunghyun and van Merrienboer, Bart and Gulcehre, Caglar and Bahdanau, Dzmitry and Bougares, Fethi and Schwenk, Holger and Bengio, Yoshua},
@@ -114,7 +104,6 @@
 	mendeley-groups = {Thesis},
 	pmid = {2079951},
 	title = {{Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation}},
-	url = {http://arxiv.org/abs/1406.1078},
 	year = {2014}
 }
 
@@ -129,7 +118,6 @@
 }
 
 @article{Liska2018,
-	abstract = {Neural networks are very powerful learning systems, but they do not readily generalize from one task to the other. This is partly due to the fact that they do not learn in a compositional way, that is, by discovering skills that are shared by different tasks, and recombining them to solve new problems. In this paper, we explore the compositional generalization capabilities of recurrent neural networks (RNNs). We first propose the lookup table composition domain as a simple setup to test compositional behaviour and show that it is theoretically possible for a standard RNN to learn to behave compositionally in this domain when trained with standard gradient descent and provided with additional supervision. We then remove this additional supervision and perform a search over a large number of model initializations to investigate the proportion of RNNs that can still converge to a compositional solution. We discover that a small but non-negligible proportion of RNNs do reach partial compositional solutions even without special architectural constraints. This suggests that a combination of gradient descent and evolutionary strategies directly favouring the minority models that developed more compositional approaches might suffice to lead standard RNNs towards compositional solutions.},
 	archivePrefix = {arXiv},
 	arxivId = {1802.06467},
 	author = {Li{\v{s}}ka, Adam and Kruszewski, Germ{\'{a}}n and Baroni, Marco},
@@ -139,12 +127,10 @@
 	keywords = {2018,acm reference format,adam li{\v{s}}ka,and marco baroni,compositional learing,finite-state automata,germ{\'{a}}n kruszewski,lifelong learning,memorize or},
 	mendeley-groups = {Pondering - Meetings},
 	title = {{Memorize or generalize? Searching for a compositional RNN in a haystack}},
-	url = {http://arxiv.org/abs/1802.06467},
 	year = {2018}
 }
 
 @article{Weber2018,
-	abstract = {Seq2Seq based neural architectures have become the go-to architecture to apply to sequence to sequence language tasks. Despite their excellent performance on these tasks, recent work has noted that these models usually do not fully capture the linguistic structure required to generalize beyond the dense sections of the data distribution $\backslash$cite{\{}ettinger2017towards{\}}, and as such, are likely to fail on samples from the tail end of the distribution (such as inputs that are noisy $\backslash$citep{\{}belkinovnmtbreak{\}} or of different lengths $\backslash$citep{\{}bentivoglinmtlength{\}}). In this paper, we look at a model's ability to generalize on a simple symbol rewriting task with a clearly defined structure. We find that the model's ability to generalize this structure beyond the training distribution depends greatly on the chosen random seed, even when performance on the standard test set remains the same. This suggests that a model's ability to capture generalizable structure is highly sensitive. Moreover, this sensitivity may not be apparent when evaluating it on standard test sets.},
 	archivePrefix = {arXiv},
 	arxivId = {1805.01445},
 	author = {Weber, Noah and Shekhar, Leena and Balasubramanian, Niranjan},
@@ -152,12 +138,10 @@
 	file = {:home/anand/UvA/Year 2/Master Thesis/Literature/Compositionality/Weber.pdf:pdf},
 	mendeley-groups = {Thesis},
 	title = {{The Fine Line between Linguistic Generalization and Failure in Seq2Seq-Attention Models}},
-	url = {http://arxiv.org/abs/1805.01445},
 	year = {2018}
 }
 
 @article{Sutskever2014,
-	abstract = {Deep Neural Networks (DNNs) are powerful models that have achieved excel-lent performance on difficult learning tasks. Although DNNs work well whenever large labeled training sets are available, they cannot be used to map sequences to sequences. In this paper, we present a general end-to-end approach to sequence learning that makes minimal assumptions on the sequence structure. Our method uses a multilayered Long Short-Term Memory (LSTM) to map the input sequence to a vector of a fixed dimensionality, and then another deep LSTM to decode the target sequence from the vector. Our main result is that on an English to French translation task from the WMT-14 dataset, the translations produced by the LSTM achieve a BLEU score of 34.8 on the entire test set, where the LSTM's BLEU score was penalized on out-of-vocabulary words. Additionally, the LSTM did not have difficulty on long sentences. For comparison, a phrase-based SMT system achieves a BLEU score of 33.3 on the same dataset. When we used the LSTM to rerank the 1000 hypotheses produced by the aforementioned SMT system, its BLEU score increases to 36.5, which is close to the previous state of the art. The LSTM also learned sensible phrase and sentence representations that are sensitive to word order and are relatively invariant to the active and the passive voice. Fi-nally, we found that reversing the order of the words in all source sentences (but not target sentences) improved the LSTM's performance markedly, because doing so introduced many short term dependencies between the source and the target sentence which made the optimization problem easier.},
 	archivePrefix = {arXiv},
 	arxivId = {1409.3215},
 	author = {Sutskever, Ilya and Vinyals, Oriol and Le, Quoc V},
@@ -171,7 +155,6 @@
 	pages = {3104--3112},
 	pmid = {2079951},
 	title = {{Sequence to sequence learning with neural networks}},
-	url = {http://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural},
 	year = {2014}
 }
 
@@ -212,9 +195,41 @@
 	pages = {3729--3737},
 	publisher = {Curran Associates, Inc.},
 	title = {{Probing the Compositionality of Intuitive Functions}},
-	url = {http://papers.nips.cc/paper/6130-probing-the-compositionality-of-intuitive-functions.pdf},
 	year = {2016}
 }
+
+@article{Lake2017,
+	archivePrefix = {arXiv},
+	arxivId = {1711.00350},
+	author = {Lake, Brenden M. and Baroni, Marco},
+	eprint = {1711.00350},
+	file = {:home/anand/UvA/Year 2/Master Thesis/Literature/Compositionality/1711.00350.pdf:pdf},
+	mendeley-groups = {Thesis},
+	title = {{Generalization without systematicity: On the compositional skills of sequence-to-sequence recurrent networks}},
+	year = {2017}
+}
+
+@article{Lake2015,
+	archivePrefix = {arXiv},
+	arxivId = {10.1126/science.aab3050},
+	author = {Lake, Brenden M. and Salakhutdinov, Ruslan and Tenenbaum, Joshua B.},
+	doi = {10.1126/science.aab3050},
+	eprint = {science.aab3050},
+	file = {:home/anand/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Lake, Salakhutdinov, Tenenbaum - 2015 - Human-level concept learning through probabilistic program induction.pdf:pdf},
+	isbn = {0036-8075},
+	issn = {10959203},
+	journal = {Science},
+	mendeley-groups = {Pondering - Meetings,Thesis},
+	number = {6266},
+	pages = {1332--1338},
+	pmid = {26659050},
+	primaryClass = {10.1126},
+	title = {{Human-level concept learning through probabilistic program induction}},
+	volume = {350},
+	year = {2015}
+}
+
+
 
 
 
