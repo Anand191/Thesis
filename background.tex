@@ -212,10 +212,12 @@ Sequence-to-sequence (seq2seq) models introduced by \cite{Sutskever2014}, \cite{
 
 Neural networks have been shown to be excellent at learning rich representation from data without the need for extensive feature engineering (give some refs here). RNNs are especially adept at learning features and long term dependencies in sequential data (section \ref{RNN}). The simple yet effective idea behind a seq2seq model is learning a fixed size (latent) representation of a variable length input and then generating a variable length output by conditioning it on this latent representation and the previous portion of the output sequence.
 
-\begin{equation}
+\begin{equation} \label{decoder:eqn1}
 	h^{(t)} = f(x^{(t)}, h^{(t-1)}, v)
 \end{equation}
 
-\begin{equation}
-	x^{(t+1)} = g(x^{(t)}, h^{(t)}, v)
+\begin{equation} \label{decoder:eqn2}
+	P(x^{(t+1)}|x^{(t)}, x^{(t-1)},.....,x^{(1)}) = g(x^{(t)}, h^{(t)}, v)
 \end{equation}
+
+It can be seen from equation \ref{decoder:eqn2} that the decoder is auto-regressive with the long term temporal dependencies captured in its hidden state. The term $\mathbf{v}$ represents the summary of the entire input state compressed into a fixed length vector (last hidden state of encoder) viz. the \textbf{latent space}. This encoder- decoder network is then jointly trained via. cross entropy loss between the target and the predicted sequence.

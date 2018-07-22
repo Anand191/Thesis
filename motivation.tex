@@ -20,10 +20,28 @@ The definition of compositionality presented above does not directly imply depen
 \subsection{Attention in Humans}
 Attention from a cognitive neuroscience perspective. Attentional blink
 
-\subsection{Se2Seq with Attention}
-It was shown by \cite{Cho2014} that the performance of a basic encoder-decoder models as explained in \ref{background:s2s} is inversely related to the increase in length of the input sentence. Therefore in lines with concepts of the selective attention and attentional blink in human beings, \cite{Bahdanau2014} and later  \cite{Luong2015} showed that soft selection from source states where most relevant information can be assumed to be concentrated during a particular translation step in NMT leads to improved performance.
+\subsection{Se2Seq with Attention}\label{mtv:attn}
+It was shown by \cite{Cho2014} that the performance of a basic encoder-decoder models as explained in \ref{background:s2s} is inversely related to the increase in length of the input sentence. Therefore in lines with concepts of the selective attention and attentional blink in human beings, \cite{Bahdanau2014} and later  \cite{Luong2015} showed that soft selection from source states where most relevant information can be assumed to be concentrated during a particular translation step in NMT leads to improved performance. In the Bahdanau \citep{Bahdanau2014} framework of attention, the equations \ref{decoder:eqn1} and \ref{decoder:eqn2} are modified as follows:
 
-How is attention calculated? Equations? Plots? Also cover this from a key-value pair pov.
+\begin{equation}\label{attn:eqn1}
+h^{(t)} = f(x^{(t)}, h^{(t-1)}, c^{(t)}),
+\end{equation}
+
+\begin{equation} \label{attn:eqn2}
+P(x^{(t+1)}|x^{(t)}, x^{(t-1)},.....,x^{(1)}) = g(x^{(t)}, h^{(t)}, c^{(t)}).
+\end{equation}
+
+Here unlike the traditional seq2seq model the probability of emission of the output at time step $t$ isn't conditioned on a fixed summary representation $\mathbf{v}$ of the input sequence. Rather it is conditioned on a context vector $\mathbf{c^{(t)}}$ which is distinct at each decoding step. The context vector is calculated using a sequence of encoder outputs $(s^1, s^2, ....,s^N)$ to which the the input sequence is mapped such that an encoder output $s^i$ contains a representation of the entire sequence with maximum information pertaining to the $i_{th}$ word in the input sequence. The context vector is then calculated as follows:
+
+\begin{equation}\label{attn:eqn3}
+	c^{(t)}  = \sum_{j=1}^N \alpha_{tj} s^j,
+\end{equation}
+where:
+\begin{equation}\label{attn:eqn4}
+	\alpha_{tj} = \text{softmax}(e(h^{(t-1)}, s^j)).
+\end{equation}
+where $e$ is a alignment/matching/similarity measure between the decoder hidden state $h^{(t-1)}$ i.e. just before the emission of output $x^{(t)}$. The alignment function can be a dot product of the two vectors or a feed-forward network that is jointly trained with the encoder-decoder model. The $\alpha_{tj}$ is an attention vector that weighs the encoder outputs at a given decoding step. \cite{Vaswani2017} view the entire process of attention and context generation as a series of functions applied to the tupe (query, key, value), with the first step being an \textbf{attentive read} step where a scalar matching score between the query and key ($h^{(t-1)}, s^j$) is calculated followed by computation of attention weights $\alpha_{tj}$. Weighted averaged of the \lq values{}\rq\ using the attention weights is then done in the \textbf{aggregation} step.  
+
 
 \section{Pondering}
 

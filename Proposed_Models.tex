@@ -6,11 +6,25 @@ The biggest criticism of deep learning is its overt dependence on voluminous dat
 
 However when trained purely on input/output mappings without this additional supervision, the authors noted that only a small percentage of networks could converge to a compositional solution (models capable of zero shot generalizing to unseen inputs on known compositions). Additional these small percentage of models also only showed a weak form of composition wherein if for instance t1, t2 are atomic tables, then a composition task t1 t2 is indexed to prompt t1t2, instead of solving in a nested fashion viz. t1(t2(.)). (Get feedback here, see if this is clear)
 
-Motivation for AG - Lake's work as an inspiration should come here, something about learning the trace of a program.\cite{Lake2015}
+Motivation for AG - Lake's work as an inspiration should come here, something about learning the trace of a program.\cite{Lake2015}. BPL sequentially builds up complex characters from primitives by bayesian sampling. 
 
-What is AG?
+Attention (section \ref{mtv:attn}) based seq2seq models produce a \lq soft{}\rq\ alignment between the source (latent representation of the input) and the target. Furthermore seq2seq models require thousands of samples to learn this soft alignment. However in light of the aforementioned arguments presented in favor of concentrating on primitives to construct a complex \lq composition{}\rq\ I propose the concept of \textbf{A}ttentive \textbf{G}uidance (AG). AG argues that the decoder having perfect access to the encoder state(s) containing maximum information pertaining to that decoding step, would leave to improved target sequence accuracy.
 
-How AG in seq2seq directly translates to pondering?
+\begin{figure}
+	\begin{minipage}[t]{\textwidth}
+		\ifpdf
+		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/attention-guidance-pdf}
+		\else
+		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/attention-guidance-eps}
+		\fi
+		\caption{\small Diffused vs Hard Attention}
+		\label{pm:ag-schematic}
+	\end{minipage}
+\end{figure}
+
+Revisiting the query-key-value pair view of attention described in section \ref{mtv:attn}, AG tries to improve the scalar matching score between the query and the keys during the attentive read step. Since the \textit{keys} can be thought of as the memory addresses to the \textit{values} which are needed at a given decoding step, AG tries to ensure a more efficient information retrieval. 
+
+Write from a program learning pov as described above in Lake's work. Do mention that AG forces the model to pick the compositional solution from the space of all possible solutions. Eventually it leads to the soft alignment in standard seq2seq with attention being converted to a hard alignment. refer figure \ref{pm:ag-schematic}
 
 \begin{figure}
 	\begin{minipage}[t]{\textwidth}
@@ -19,7 +33,13 @@ How AG in seq2seq directly translates to pondering?
 		\else
 		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/ag-model-eps}
 		\fi
-		\caption{\small Attentive Guidance}
-		\label{pm:ag}
+		\caption{\small Attentive Guidance and calculation of AG loss}
+		\label{pm:ag-loss}
 	\end{minipage}
 \end{figure}
+
+Ag is implemented via and extra loss term added to the final model loss. As shown in figure \ref{pm:ag-loss}, at each step of decoding the cross entropy loss between attention vector calculated $\alpha_{tj}$ and the ideal attention vector at that decoding step are added to the model loss. The final loss is therefore expressed as:
+
+\begin{equation}
+\widetilde{\mathcal{L}}(x,y) = \mathcal{L}(x,y) + \sum_{t=1}^T \sum_{i=1}^N -a_{i,t}\log\hat{a}_{i,t}
+\end{equation}
