@@ -1,12 +1,12 @@
 \chapter{Attentive Guidance}\label{Chapter:proposals}
 
-In this chapter I review some pitfalls of RNNs and seq2seq models in their current state. I go on to show how they fail at compositional learning. Finally I present a novel idea for overcoming this. I also present two datasets which serve as our benchmarks. A comprehensive view of these problems paves the way towards distinguishing human intelligence from machine intelligence. 
+In this chapter I review the failure of seq2seq models in finding the compositional solution from the space of all possible solutions on a compositional dataset. Finally I present a novel idea inspired from the concept of attention in human beings (section \ref{intro:attn}) for overcoming this. I also present two datasets with different underlying rule structures, which serve as the benchmarks for testing the proposed method.
 
 \cite{Liska2018} using lookup tables (section \ref{datasets:lt}) as the testbed tried to asses the ability of a RNN network (more specifically a 60 unit LSTM followed by a 10 unit sigmoid layer) to search for compositional solution to the lookup table task. Lookup tables exhibit functional nesting and therefore a model that can find a compositional solution from the search space of all possible solutions is more likely to zero shot generalize to novel compositions. The authors established that by having additional supervision on the weights of hidden state transitions, theoretically a finite-state automata (FSA) can be induced such that the recurrent layers encode the states of this automaton. This FSA can in principle solve the lookup table task upto a finite number of compositions. They further showed that this theoretical setup can achieve zero state generalization on unseen inputs on known compositions i.e. \textit{heldout inputs} (section \ref{lt:splits}).
 
 However when trained purely on input/output mappings without this additional supervision, the authors noted that only a small percentage of networks could converge to a compositional solution (models capable of zero shot generalizing to unseen inputs on known compositions). Additional these small percentage of models also only showed a weak form of composition wherein if for instance t1, t2 are atomic tables, then a composition task t1 t2 is indexed to prompt t1t2, instead of solving in a nested fashion viz. t1(t2(.)). (Get feedback here, see if this is clear)
 
-\cite{Lake2015} introduced Hierarchical Bayesian Program Learning (HBPL) to learn complex characters (concepts) from few samples by representing them as probabilistic programs which are built compositionally via. bayesian sampling from simpler primitives, subparts, parts and the relations between them, respectively. This approach led to human level generalization on the \textbf{omniglot} dataset \citep{Lake2015} which is a dataset containing 1623 characters (concepts) with 20 samples each. Omniglot is therefore not sample intensive and hence ideally suited to test one-shot generalization capabilities of a model. This work served as the major motivation for learning nested functions such as \textit{lookup tables} of the form t1(t2(.), by learning the compositions from simpler primitives i.e. atomic tables and then stacking them hierarchically. The procedure for learning the \textbf{trace} of the above-mentioned is described subsequently.
+\subparagraph{Inspiration for Attentive Guidance :} \cite{Lake2015} introduced Hierarchical Bayesian Program Learning (HBPL) to learn complex characters (concepts) from few samples by representing them as probabilistic programs which are built compositionally via. bayesian sampling from simpler primitives, subparts, parts and the relations between them, respectively. This approach led to human level generalization on the \textbf{omniglot} dataset \citep{Lake2015} which is a dataset containing 1623 characters (concepts) with 20 samples each. Omniglot is therefore not sample intensive and hence ideally suited to test one-shot generalization capabilities of a model. This work served as the major motivation for learning nested functions such as \textit{lookup tables} of the form t1(t2(.), by learning the compositions from simpler primitives i.e. atomic tables and then stacking them hierarchically. The procedure for learning the \textbf{trace} of the above-mentioned is described subsequently.
 
 \section{Attentive Guidance}
 
@@ -46,7 +46,15 @@ AG is implemented via an extra loss term added to the final model loss. As shown
 \end{equation}
 
 \subsection{AG and Pondering} \label{pm:ag-ponder}
-How pondering is mocked using AG. implicit in case of LT and explicit in Micro Tasks. 
+Pondering presented in section \ref{mtv:ponder} facilitates variable hidden state transitions at any given input step in a recurrent unit. Attentive guidance can be seen as hardcoded or forced pondering in case of seq2seq models. This is best elaborated through an example as follows:
+\begin{equation}
+	f(5) = 10 \qquad g(3) = 5\qquad f(g(3)) = 10,
+\end{equation}
+rewriting the composed function as follows and expanding each step of composition:
+\begin{equation}
+	f\ g\ 3 = 5\ 10.
+\end{equation}
+It is easy to see that if the above example is presented to a model all it needs to do is emit the final output i.e. 10. However AG forces an additional (ponder) step to explicitly emit the intermediate output as well. Not only does this allow the decoder of the output to have an additional hidden state transition it also helps us see if the model is taking compositional steps in arriving at the final answer. In this thesis we use such \lq mocked\rq{} pondering in case of lookup-tables (section \ref{datasets:lt}) and micro tasks (chapter \ref{Chapter:datasets}). As a future work we can think about coming up with a method to ensure that the number of ponder steps are learned by the decoder instead of being hardcoded.
 
 
 \section{Lookup Tables} \label{datasets:lt}
@@ -123,7 +131,7 @@ In accordance with the data split described above we present the distribution of
 \section{Symbol Rewriting} \label{datasets:sr}
 Introduced by \cite{Weber2018} the symbol rewriting dataset is essentially a probabilistic context free grammar (PCFG). It consists of a rewriting a set of input symbols to a set of output symbols based on this grammar. Before proceeding further with the task description,I'll elaborate on PCGFs briefly.
 
-\subparagraph{PCFGs} are the stochastic version of CFGs (Context free grammars) that we encountered in section \ref{flt:ch}. The addition of this stochasticity was motivated by the non-uniformity of words in natural language. Assigning probabilities to production rules, lead to a grammar more in line with the Zipfian distribution of words in natural language. A PCFG consists of:
+\subparagraph{PCFGs} are the stochastic version of CFGs (Context free grammars) that we encountered in section \ref{flt:ch}. The addition of this stochasticity was motivated by the non-uniformity of words in natural language. Assigning probabilities to production rules, lead to a grammar more in line with the Zipfian distribution of words in natural language \citep{jurafsky2014speech}. A PCFG consists of:
 
 \begin{enumerate}
 	\item A CFG $\mathcal{G} = \langle \Sigma, N, S, R \rangle$ where the symbols have the same meaning as defined in section \ref{flt}.
