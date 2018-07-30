@@ -8,12 +8,13 @@
 	\nomenclature{$C_{p,p}$}{specific heat capacity of particle}
 	\nomenclature{$k_f$}{thermal conductivity of fluid}
 	
-"Can Start with some quote"
-How deep learning has taken the world by storm since Alexnet in 2012. Examples of some areas where it has reached human/super-human level performance.
+The concept of an artificial neuron has existed since 1940s \citep{McCulloch1943} but they or more specifically the phrase \lq neural networks \rq{} has entered common parlance since \cite{Krizhevsky2012} beat the previous state of the art on the ImageNet challenge \citep{Deng2009} using their deep convolution neural network (CNN; \citep{Lecun89}). Since then deep learning has revolutionized the field of artificial intelligence and become the new state of the art in areas such as object recognition \citep{He2015}, speech recognition \citep{Graves2013} and machine translation \citep{Sutskever2014} to name a few.
 
-However data hungry and thus poor at concept learning. Where has it failed?
+The biggest criticism however of deep learning is its overt dependence on voluminous data which has led many researchers to argue that deep networks are only good at pattern recognition in training distribution \citep{Marcus2018} and therefore conform to the basic tenet of statistical machine learning that train and test data should come from the same distribution \citep{Zadrozny:2004:LEC:1015330.1015425}. Deep neural networks therefore are still poor at zero shot generalization to test data which despite coming from the same \lq rule space{}\rq\ don't follow the exact same distribution as training data (find a good example here). Human reasoning on the other hand is governed by a rule based systematicity (give refs) which leads us to learn complex concepts from small samples which leads to zero shot generalization (example ).
 
-The biggest criticism of deep learning is its overt dependence on voluminous data which has led many researchers to argue that deep networks are only good at finding pattern recognition in training distribution (give refs) and therefore conform to the basic tenet of statistical machine learning that train and test data should come from the same distribution(give refs). Deep neural networks therefore are still poor at zero shot generalization to test data which despite coming from the same \lq rule space{}\rq\ don't follow the exact same distribution as training data (find a good example here). Human reasoning on the other hand is governed by a rule based systematicity (give refs) which leads us to learn complex concepts from small samples which leads to zero shot generalization (example ).
+Human beings can learn rich conceptual representation from few samples (few-shot learning) or even one sample (one-shot learning).
+
+This thesis is a work towards making machines think like humans and in the process become more data  efficient .Compositionality is one of the underlying principles of human cogition and 
 
 
 \section{Motivation} \label{Chapter:motivation}
@@ -26,7 +27,11 @@ Compositionality is the principle of understanding a complex expression through 
 
 Aritifical languages (such as the ones we'll encounter in chapter \ref{Chapter:datasets}) on the other hand can be constructed to strictly follow the principles of systematic compositionality. Given human propensity for compositional solutions \citep{NIPS2016_6130} these datasets provide excellent test-beds for validating the existence of compositional skills in neural networks. 
 
-\subsection{Compositionality in Seq2Seq Models}
+\subsection{Compositionality and Deep Learning}
+Arguments in favour of deep networks exhibiting compositionality. They learn primitive shapes in machines and build heirarchical structures from them. Impressive though it is, it is merely heirarchical feature learning. Further even this requires thousand if not millions of samples.
+
+Clevr, SCAN, Lookup table tasks.
+
 \cite{Lake2017} introduced the SCAN dataset which maps a string of commands to the corresponding string of actions and is therefore a natural setting for seq2seq models. The commands consist of \textit{primitives} such as jump, walk, run etc.; \textit{direction modifiers} such as left, right, opposite etc.; \textit{counting modifiers} such as twice, thrice and \textit{conjuctions} and, after. This grammar generates a finite set of unambiguous commands which can be decoded if the meaning of the morphemes are well understood. The experiments on this dataset by the authors indicates that seq2seq models fails to extract the \textit{systematic} rules from the grammar which are required for generalization to test data which doesn't come from the same distribution as train data but follows the same underlying rules. Seq2seq models generalize well (and in a data efficient manner) on novel samples from the same distribution on which they have been trained, but fail to generalize to samples which exhibit the same systematic rules as the training data but come from a different statistical distribution viz. longer/unseen compositions of commands. These results indicate that seq2seq models lack the algebraic capacity to compose complex expressions from simple morphemes by operating in a \lq rule space{}\rq\ and rather resort to pattern recognition mechanisms.
 
 The inability if a vanilla seq2seq model to solve a compositional task was shown by \cite{Liska2018}.
