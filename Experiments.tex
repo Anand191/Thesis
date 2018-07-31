@@ -1,11 +1,15 @@
 \chapter{Experiments and Results}\label{Chapter:experiments}
-
+This chapter introduces two datasets which serve as testbeds for attentive guidance. I motivate the relevance of these datasets as pertinent test regimes for attentive guidance followed by the experimental setup for both a vanilla seq2seq baseline and an attentive guidance model. For each of the datasets I conclude with the results obtained and a comparative analysis of vanila seq2seq and attentive guidance on these domains.
 
 \section{Lookup Tables} \label{datasets:lt}
 
 The lookup tables task was introduced by \cite{Liska2018} within the CommAI domain \citep{Baroni2017} as an initial benchmark to test the generalization capability of a compositional learner. The data consists of atomic tables which bijectively map three bit inputs to three bit outputs. The compositional task can be understood in the form of a nested function $f(g(x))$ with $f$ and $g$ representing distinct atomic tables. To clarify the task with an example, given $t1$ and $t2$ refer to the first two atomic tables respectively; also given that $t1(001) = 100$ and $t2(100) = 010$. Then a compositional task is presented to a learner as $001 t1 t2 = 010$. Since the i/o strings are three bit, there can be a maximum of 8 input/output strings.
 
 As is very clear from the task description that since the table prompts $t_i$ don't have any semantic meaning in itself, the meaning of each individual table prompt can be correlated only with the bijective mapping it provides. Secondly the dataset is in agreement with the systematic compositionality definition that we have outlined in section \ref{systematic}. Lastly one can argue that even a human learner might come up with an approach that is different than solving each function individually and sequentially in a given nested composition, but such an approach will not be able to scale with the depth of nesting.
+
+\cite{Liska2018} in their experiments with lookup tables found that by having additional supervision on the weights of hidden state transitions, theoretically a finite-state automata (FSA) can be induced such that the recurrent layers encode the states of this automaton. This FSA can in principle solve the lookup table task upto a finite number of compositions. They further showed that this theoretical setup can achieve zero state generalization on unseen inputs on known compositions i.e. \textit{heldout inputs} (section \ref{lt:splits}). However when trained purely on input/output mappings without this additional supervision, the authors noted that only a small percentage of networks could converge to a compositional solution.
+
+%using lookup tables (section \ref{datasets:lt}) as the testbed tried to asses the ability of a RNN network (more specifically a 60 unit LSTM followed by a 10 unit sigmoid layer) to search for compositional solution to the lookup table task. Lookup tables exhibit functional nesting and therefore a model that can find a compositional solution from the search space of all possible solutions is more likely to zero shot generalize to novel compositions. The authors established that
 
 \subsection{Data Structure}\label{lt:splits}
 We generated eight distinct atomic tables $t1......t8$ and work with compositions of length two, i.e. $t_i - t_j$. This leads to a possible 64 compositions. Since we want our model to not simply memorize the compositions but rather to land on a compositional solution, we propose to use the compositions only from tables $t1 - t6$ for the training set. However since the model needs to know the mapping produced by tables $t7, t8$ in order to solve their compositions we expose the model to the atomic tables $t7, t8$ in the training set. The details of all the data splits and some dataset statistics are presented below. Examples from each split and the size of each split are presented in table \ref{lt:stats}
@@ -89,16 +93,42 @@ AG therefore forces the decoder to ponder for two additional steps. The biggest 
 	\item The diagonal trace is mean to capture this sequential and compositional solution of lookup tables. At each step of decoding we force the model to focus on only that input prompt which results in the correct output for that step.
 \end{itemize}
 
-\begin{figure}
-	\begin{minipage}[t]{\textwidth}
+%\begin{figure}
+%	\begin{minipage}[t]{\textwidth}
+%		\ifpdf
+%		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/lt-trace-pdf}
+%		\else
+%		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/lt-trace-eps}
+%		\fi
+%		\caption{AG Trace for Lookup Tables}
+%		\label{ag_lt}
+%	\end{minipage}
+%\end{figure}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
 		\ifpdf
-		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/lt-trace-pdf}
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/lt-trace-pdf}
 		\else
-		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/lt-trace-eps}
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/lt-trace-eps}
 		\fi
-		\caption{AG Trace for Lookup Tables}
-		\label{ag_lt}
-	\end{minipage}
+		\caption{AG Trace for Lookup Tables} 
+		\label{ag_lt} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\ifpdf
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/sr-trace-pdf}
+		\else
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/sr-trace-eps}
+		\fi 
+		\caption{AG Trace for Symbol rewriting} 
+		\label{ag_sr} 
+		\vspace{2ex}
+	\end{subfigure}
+	\label{ag_trace_lt_sr}
 \end{figure}
 
 
@@ -189,14 +219,28 @@ The data-splits as furnished \citep{Weber2018} consists of a training data and d
 The datasets \textit{repeat, short and long} come from distributions which are different from the training distribution on which the model has learned the data structure. It is expected of a compositional learner that given the sufficient size of the training data it would be able to infer a pattern which is close to the underlying PCFG and therefore generalize of the test sets which comes from different distributions but have the same underlying structure.
 
 \subsection{AG Trace}
-\begin{figure}
-	\begin{minipage}[t]{\textwidth}
-		\ifpdf
-		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/sr-trace-pdf}
-		\else
-		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/sr-trace-eps}
-		\fi
-		\caption{AG Trace for Symbol rewriting}
-		\label{lt_sr_trace}
-	\end{minipage}
-\end{figure}
+Every input symbol leads to three emissions in the output sequence and each output symbol is generated by exactly one input symbol. Therefore for every emission in the output sequence the index of the input symbol responsible for the emission, is the trace. For every input there are three decoding steps and for all the three steps the decoder should attend to that particular input. This has been visualized in figure \ref{ag_sr}.
+%\begin{figure}
+%	\begin{minipage}[t]{\textwidth}
+%		\ifpdf
+%		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/sr-trace-pdf}
+%		\else
+%		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/sr-trace-eps}
+%		\fi
+%		\caption{AG Trace for Symbol rewriting}
+%		\label{lt_sr_trace}
+%	\end{minipage}
+%\end{figure}
+
+\subsection{Accuracy}
+Given the probabilistic nature of the symbol rewriting dataset it is not difficult to reason that sequence accuracy wouldn't be the ideal performance metric for this task. For instance A $\rightarrow$ A1\_1 B1\_2 C1\_1 and A $rightarrow$ A1\_2 B1\_1 C1\_2 are both valid productions and since the data is probabilistic, the possibility of both the targets in the training data is equally likely. The accuracy of a prediction is evaluated in the following three steps:
+\begin{itemize}
+	\item Since every input symbol leads to emission of three output symbols, the output length should be 3*input length.
+	\item The input vocabulary consists of 40 symbols (A - OS). The output is always a permutation of a three tuple of the form (Aj\_i Bj\_i Cj\_i) with $j=$ index of the corresponding input symbol in the vocabulary and $i \in [1, 2] $. The second check is to ensure that none of the Aj\_i Bj\_i Cj\_i are repeated.
+	\item The third check is that the $j$ as described above = index of the corresponding input symbol in the vocabulary.
+\end{itemize}
+If a prediction passes all these three checks in that order, the accuracy of that prediction is 1 else 0.
+
+\subparagraph{Hyperparameters}
+
+\subsection{Symbol Rewriting - Results}
