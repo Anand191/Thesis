@@ -1,0 +1,5 @@
+model, compName, seqacc, std, min, max
+Guided, Standard, 99.97, 0.07, 99.75, 100
+Guided, Repeat, 99.96, 0.07, 99.65, 100 
+Guided, Short, 79.70, 10.53, 50.50, 99.95
+Guided, Long, 60.80, 8.22, 47.30, 88.85

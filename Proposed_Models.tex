@@ -14,19 +14,20 @@ In this chapter I introduce the concept of \textbf{Attentive Guidance (AG)} whic
 
 Attention (section \ref{mtv:attn}) based seq2seq models produce a \lq soft{}\rq\ alignment between the source (latent representation of the input) and the target. Furthermore seq2seq models require thousands of samples to learn this soft alignment. However in light of the aforementioned arguments presented in favor of concentrating on primitives to construct a complex \lq composition{}\rq\ I propose the concept of \textbf{A}ttentive \textbf{G}uidance (AG). AG argues that the decoder having perfect access to the encoder state(s) containing maximum information pertaining to that decoding step, would leave to improved target sequence accuracy.
 
-\begin{figure}
-	\begin{minipage}[t]{\textwidth}
-		\ifpdf
-		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/attention-guidance-pdf}
-		\else
-		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/attention-guidance-eps}
-		\fi
-		\caption{\small Diffused vs Hard Attention}
-		\label{pm:ag-schematic}
-	\end{minipage}
-\end{figure}
+%\begin{figure}
+%	\begin{minipage}[t]{\textwidth}
+%		\ifpdf
+%		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/attention-guidance-pdf}
+%		\else
+%		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/attention-guidance-eps}
+%		\fi
+%		\caption{\small Diffused vs Hard Attention}
+%		\label{pm:ag-schematic}
+%	\end{minipage}
+%\end{figure}
 
-Revisiting the query-key-value pair view of attention described in section \ref{mtv:attn}, AG tries to improve the scalar matching score between the query and the keys during the attentive read step. Since the \textit{keys} can be thought of as the memory addresses to the \textit{values} which are needed at a given decoding step, AG tries to ensure a more efficient information retrieval. Similar to \cite{Lake2015} AG induces the trace of a program (albeit not probabilistic) needed to solve a complex composition by solving its subparts in a sequential and hierarchical fashion. This in turn forces the model search for a compositional solution from the space of all possible solutions. AG eventually results in a \lq hard{}\rq\ alignment between the source and target as seen in figure \ref{pm:ag-schematic}
+Revisiting the query-key-value pair view of attention described in section \ref{mtv:attn}, AG tries to improve the scalar matching score between the query and the keys during the attentive read step. Since the \textit{keys} can be thought of as the memory addresses to the \textit{values} which are needed at a given decoding step, AG tries to ensure a more efficient information retrieval. Similar to \cite{Lake2015} AG induces the trace of a program (albeit not probabilistic) needed to solve a complex composition by solving its subparts in a sequential and hierarchical fashion. This in turn forces the model search for a compositional solution from the space of all possible solutions. AG eventually results in a \lq hard{}\rq\ alignment between the source and target.
+%as seen in figure \ref{pm:ag-schematic}
 
 
 \begin{figure}
@@ -213,7 +214,8 @@ Since the lookup tables can be viewed as nested functions, accuracy of final out
 \end{figure}
 
 \begin{figure}
-	\begin{minipage}[t]{\textwidth}
+	\begin{minipage}[t]{0.9\textwidth}
+		\centering
 		\ifpdf
 		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/lt-acc-pdf}
 		\else
@@ -223,6 +225,84 @@ Since the lookup tables can be viewed as nested functions, accuracy of final out
 		\label{res:lt-acc}
 	\end{minipage}
 \end{figure}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/attn/baseline1-eps}
+		\caption{Heldout Tables} 
+		\label{bs_attn1} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/attn/baseline2-eps}
+		\caption{New Compositions} 
+		\label{bs_attn2} 
+		\vspace{2ex}
+	\end{subfigure}
+	\caption{Attention plots for baseline model.}
+	\label{bs_attn}
+\end{figure}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/attn/learned1-eps}
+		\caption{Heldout Tables} 
+		\label{lrn_attn1} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/attn/learned2-eps}
+		\caption{New Compositions} 
+		\label{lrn_attn2} 
+		\vspace{2ex}
+	\end{subfigure}
+	\caption{Attention plot for guided model.}
+	\label{lrn_attn}
+\end{figure}
+
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/attn/longer2-eps}
+		\caption{Attention plot for length=3 heldout composition} 
+		\label{attn_longer1} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/attn/longer1-eps}
+		\caption{Attention plot for length = 4 heldout composition} 
+		\label{attn_longer2} 
+		\vspace{2ex}
+	\end{subfigure}
+	\caption{Attention plot for longer heldout composition processed by a guided model.}
+	\label{attn_longer}
+\end{figure}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/heldout_compositions_eps}
+		\caption{Longer Heldout Compositions} 
+		\label{lt_longer1} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/lookup/heldout_tables_eps}
+		\caption{Longer Heldout Tables} 
+		\label{lt_longer2} 
+		\vspace{2ex}
+	\end{subfigure}
+	\caption{Sequence Accuracy for Longer Compositions}
+	\label{lt_longer}
+\end{figure}
+
 
 
 \section{Symbol Rewriting} \label{datasets:sr}
@@ -282,7 +362,7 @@ Every input symbol leads to three emissions in the output sequence and each outp
 
 
 \subsection{Accuracy}
-Given the probabilistic nature of the symbol rewriting dataset it is not difficult to reason that sequence accuracy wouldn't be the ideal performance metric for this task. For instance A $\rightarrow$ A1\_1 B1\_2 C1\_1 and A $rightarrow$ A1\_2 B1\_1 C1\_2 are both valid productions and since the data is probabilistic, the possibility of both the targets in the training data is equally likely. The accuracy of a prediction is evaluated in the following three steps:
+Given the probabilistic nature of the symbol rewriting dataset it is not difficult to reason that sequence accuracy wouldn't be the ideal performance metric for this task. For instance A $\rightarrow$ A1\_1 B1\_2 C1\_1 and A $\rightarrow$ A1\_2 B1\_1 C1\_2 are both valid productions and since the data is probabilistic, the possibility of both the targets in the training data is equally likely. The accuracy of a prediction is evaluated in the following three steps:
 \begin{itemize}
 	\item Since every input symbol leads to emission of three output symbols, the output length should be 3*input length.
 	\item The input vocabulary consists of 40 symbols (A - OS). The output is always a permutation of a three tuple of the form (Aj\_i Bj\_i Cj\_i) with $j=$ index of the corresponding input symbol in the vocabulary and $i \in [1, 2] $. The second check is to ensure that none of the Aj\_i Bj\_i Cj\_i are repeated.
@@ -293,3 +373,31 @@ If a prediction passes all these three checks in that order, the accuracy of tha
 \subparagraph{Hyperparameters}
 
 \subsection{Symbol Rewriting - Results}
+
+\begin{figure}
+	\begin{minipage}[t]{0.9\textwidth}
+		\centering
+		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/sr/sr-seq-eps}
+		\caption{\small Sequence accuracies for symbol rewriting test splits}
+		\label{res:sr-acc}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/sr/attn/baseline-eps}
+		\caption{Baseline attention plot for a \lq repeat\rq{} sample} 
+		\label{repeat_base} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/sr/attn/guided-eps}
+		\caption{AG attention plot for a \lq repeat\rq{} sample } 
+		\label{repeat_guide} 
+		\vspace{2ex}
+	\end{subfigure}
+	\caption{Attention plots for symbol rewriting}
+	\label{sr_repeat}
+\end{figure}

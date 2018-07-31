@@ -1,0 +1,6 @@
+model, compName, seqacc, std, min, max
+Baseline64, Standard,  94.29, 19.63, 0.35, 100
+Baseline64, Repeat, 66.19, 30.54, 6.10, 99.95
+Baseline64, Short, 74.99, 23.46, 2.40, 100
+Baseline64, Long, 47.01, 31.33, 0.00, 99.45
+
