@@ -538,7 +538,7 @@
 
 \bigskip
 \bigskip
-An electronic version of this thesis is available at \url{http://scriptiesonline.uba.uva.nl}.
+%An electronic version of this thesis is available at \url{http://scriptiesonline.uba.uva.nl}.
 
 
 \end{center}
@@ -566,98 +566,98 @@ Copyright \copyright\ \mscname \\
 % \newline\noindent
 All rights reserved.
 \cleardoublepage
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Readers Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\thispagestyle{empty}
+%%
+%\begin{center}
+%\begin{tabular}{c}
+%%      \large \textsc{Delft University Of Technology}\\
+%     \textsc{\large University of Amsterdam}\\
+%     \textsc{Department Of} \\
+%     \textsc{\mscdepartment}
+%\end{tabular}
+%\end{center}
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Readers Page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\thispagestyle{empty}
+%\vspace{1cm}
+%%
+%%\large
+%%
+%The undersigned hereby certify that they have read and recommend
+%to the Department of \mscdepartment\ for acceptance a thesis
+%titled \textbf{``\msctitle''} by
+%\textbf{\mscname} in partial fulfillment of the
+%requirements for the degree of \textbf{Master of Science}.
 %
-\begin{center}
-\begin{tabular}{c}
-%      \large \textsc{Delft University Of Technology}\\
-     \textsc{\large University of Amsterdam}\\
-     \textsc{Department Of} \\
-     \textsc{\mscdepartment}
-\end{tabular}
-\end{center}
-
-\vspace{1cm}
+%\vspace{4cm}
 %
-%\large
+%\makebox[\textwidth][r]{Dated: \underline{ \mscdate } }
+%% \mbox{} \hfill Dated: \underline{ \mscdate }
 %
-The undersigned hereby certify that they have read and recommend
-to the Department of \mscdepartment\ for acceptance a thesis
-titled \textbf{``\msctitle''} by
-\textbf{\mscname} in partial fulfillment of the
-requirements for the degree of \textbf{Master of Science}.
-
-\vspace{4cm}
-
-\makebox[\textwidth][r]{Dated: \underline{ \mscdate } }
-% \mbox{} \hfill Dated: \underline{ \mscdate }
-
-\vspace{1cm}
-
-\noindent
-
-% vertical spacing distance between the readers
-\newcommand{\vsp}{1.8cm}%
+%\vspace{1cm}
 %
-% head of department (first reader)
-
-\parbox[t][\vsp][s]{\textwidth}{%
-    %\ifthenelse{ \equal{\mscreaderone}{} }{}{%
-        Supervisor:         \hfill \underline{ \hspace{7cm} }\\%
-        \makebox[\textwidth][r]{Dr. ir. Elia Bruni}%
-        \vfill%
-    }
+%\noindent
+%
+%% vertical spacing distance between the readers
+%\newcommand{\vsp}{1.8cm}%
+%%
+%% head of department (first reader)
+%
+%\parbox[t][\vsp][s]{\textwidth}{%
+%    %\ifthenelse{ \equal{\mscreaderone}{} }{}{%
+%        Supervisor:         \hfill \underline{ \hspace{7cm} }\\%
+%        \makebox[\textwidth][r]{Dr. ir. Elia Bruni}%
+%        \vfill%
+%    }
+%%}
+%%
+%% daily supervisor (second reader)
+%\parbox[t][\vsp][s]{\textwidth}{%
+%    %\ifthenelse{ \equal{\mscreaderone}{} }{}{%
+%        Supervisor:         \hfill \underline{ \hspace{7cm} }\\%
+%        \makebox[\textwidth][r]{Ir. Dieuwke Hupkes}%
+%        \vfill%
+%    }
+%%}
+%%
+%% guest, someone from outside the department/university (third reader)
+%\parbox[t][\vsp][s]{\textwidth}{%
+%    \ifthenelse{ \equal{\mscreaderthree}{} }{}{%
+%        Committee Member:                     \hfill \underline{ \hspace{7cm} }\\%
+%        \makebox[\textwidth][r]{\mscreaderthree}%
+%        \vfill%
+%    }
 %}
-%
-% daily supervisor (second reader)
-\parbox[t][\vsp][s]{\textwidth}{%
-    %\ifthenelse{ \equal{\mscreaderone}{} }{}{%
-        Supervisor:         \hfill \underline{ \hspace{7cm} }\\%
-        \makebox[\textwidth][r]{Ir. Dieuwke Hupkes}%
-        \vfill%
-    }
+%%
+%% person picked from a random room (fourth reader)
+%\parbox[t][\vsp][s]{\textwidth}{%
+%    \ifthenelse{ \equal{\mscreaderfour}{} }{}{%
+%        Committee Memebr:                     \hfill \underline{ \hspace{7cm} }\\%
+%        \makebox[\textwidth][r]{\mscreaderfour}%
+%        \vfill%
+%    }
 %}
-%
-% guest, someone from outside the department/university (third reader)
-\parbox[t][\vsp][s]{\textwidth}{%
-    \ifthenelse{ \equal{\mscreaderthree}{} }{}{%
-        Committee Member:                     \hfill \underline{ \hspace{7cm} }\\%
-        \makebox[\textwidth][r]{\mscreaderthree}%
-        \vfill%
-    }
-}
-%
-% person picked from a random room (fourth reader)
-\parbox[t][\vsp][s]{\textwidth}{%
-    \ifthenelse{ \equal{\mscreaderfour}{} }{}{%
-        Committee Memebr:                     \hfill \underline{ \hspace{7cm} }\\%
-        \makebox[\textwidth][r]{\mscreaderfour}%
-        \vfill%
-    }
-}
-%
-% in case you really want a big committee, get yourself a fifth reader
-\parbox[t][\vsp][s]{\textwidth}{%
-    \ifthenelse{ \equal{\mscreaderfive}{} }{}{%
-        Committee Member:                     \hfill \underline{ \hspace{7cm} }\\%
-        \makebox[\textwidth][r]{\mscreaderfive}%
-        \vfill%
-    }
-}
-%
-% and a sixth reader for a rediculously big reader
-\parbox[t][\vsp][s]{\textwidth}{%
-    \ifthenelse{ \equal{\mscreadersix}{} }{}{%
-        Reader:                     \hfill \underline{ \hspace{7cm} }\\%
-        \makebox[\textwidth][r]{\mscreadersix}%
-        \vfill%
-    }
-}
-%
+%%
+%% in case you really want a big committee, get yourself a fifth reader
+%\parbox[t][\vsp][s]{\textwidth}{%
+%    \ifthenelse{ \equal{\mscreaderfive}{} }{}{%
+%        Committee Member:                     \hfill \underline{ \hspace{7cm} }\\%
+%        \makebox[\textwidth][r]{\mscreaderfive}%
+%        \vfill%
+%    }
+%}
+%%
+%% and a sixth reader for a rediculously big reader
+%\parbox[t][\vsp][s]{\textwidth}{%
+%    \ifthenelse{ \equal{\mscreadersix}{} }{}{%
+%        Reader:                     \hfill \underline{ \hspace{7cm} }\\%
+%        \makebox[\textwidth][r]{\mscreadersix}%
+%        \vfill%
+%    }
+%}
+%%
 \newpage\clearemptydoublepage
 }
 
