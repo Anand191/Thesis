@@ -166,3 +166,62 @@ Test Setting: For baseline, learned guidance and hard guidance (for both gru and
  	\item Epochs=30 (early stopping owing to visual inspection of accuracy curves till 100 epochs. Model starts overfitting after 30 epochs.)
  	\item Optimizer = Adam
  \end{itemize}
+ 
+\section{Micro Tasks - Results}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/micro/unseen_verify}
+		\caption{Accuracies for verify task } 
+		\label{mtu1} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/micro/unseen_produce}
+		\caption{Accuracies for produce task } 
+		\label{mtu2} 
+		\vspace{2ex}
+	\end{subfigure}
+	\caption{Micro Task accuracies per operation for unseen test }
+	\label{mtu}
+\end{figure}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/micro/longer_verify}
+		\caption{Accuracies for verify task } 
+		\label{mtl1} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/micro/longer_produce}
+		\caption{Accuracies for produce task } 
+		\label{mtl2} 
+		\vspace{2ex}
+	\end{subfigure}
+	\caption{Micro Task accuracies per operation for longer test }
+	\label{mtl}
+\end{figure}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/micro/unseen_longer_verify}
+		\caption{Accuracies for verify task } 
+		\label{mtul1} 
+		\vspace{2ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/micro/unseen_longer_produce}
+		\caption{Accuracies for produce task } 
+		\label{mtul2} 
+		\vspace{2ex}
+	\end{subfigure}
+	\caption{Micro Task accuracies per operation for unseen longer test }
+	\label{mtul}
+\end{figure}
