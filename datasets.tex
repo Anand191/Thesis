@@ -9,11 +9,12 @@ The \textbf{verify} task input is of the form \lq $\langle$ string of k-factors 
 
 Any given $\langle$ k-factor string $\rangle$ in either of the verify or produce tasks can be one out of the following four types:
 \begin{itemize}
-	\item \textbf{atomic} - consists of a single word/k-factor/n-gram from the vocabulary and task of a learner is either to check the existence of this k-factor in the witness (verify task) or produce exactly this k-factor as target (production) task. In the verification setting this task is strictly local in its description (section \ref{flt:sh}) and can be solved by scanner with an access to the witness/lookup-table. 
+	\item \textbf{atomic}\footnote{This is present only in the verify task since in produce it just become a unary k-factor without any operator and produces an output which is a copy of itself. It is like the \lq and\rq{} task without any operator or additional symbols in the input.} - consists of a single word/k-factor/n-gram from the vocabulary and task of a learner is either to check the existence of this k-factor in the witness (verify task) or produce exactly this k-factor as target (production) task. In the verification setting this task is strictly local in its description (section \ref{flt:sh}) and can be solved by scanner with an access to the witness/lookup-table.
 	\item \textbf{or} - consists of k-factors joined by the boolean operator \lq or \rq{}. This task is again strictly local in its description albeit more memory intensive than the atomic task because it requires storage of multiple k-factors in memory.
 	\item \textbf{and} - consists of k-factors joined by the boolean operator \lq and \rq{}. Now a learner doesn't simply have to verify the existence of a single k-factor in the witness. Instead for each k-factor it has to maintain a record of it's occurence/non-occurence in the witness, and thus requires store of all k-factors in memory. This task is therefore locally k-testable. 
 	\item \textbf{not} - consists of k-factors acted upon by both \lq and \rq{} as well as \lq not \rq{} operators. While the \textit{conjunction} acts upon two k-factors, the \textit{negation} only acts upon one. This task also has a locally k-testable description. 
 \end{itemize}
+
 
 
 \section{Data  Structure}

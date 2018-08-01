@@ -44,7 +44,7 @@ Revisiting the query-key-value pair view of attention described in section \ref{
 
 AG is implemented via an extra loss term added to the final model loss. As shown in figure \ref{pm:ag-loss}, at each step of decoding, the cross entropy loss between calculated attention vector $\hat{a}_{t,i}$ and the ideal attention vector $a_{t,i}$, are added to the model loss. The final loss for an output sequence of length $T$ and an input sequence of length $N$ is therefore expressed as:
 
-\begin{equation}
+\begin{equation}\label{eqn:ag}
 \widetilde{\mathcal{L}}(x,y) = \mathcal{L}(x,y) + \sum_{t=1}^T \sum_{i=1}^N -a_{i,t}\log\hat{a}_{i,t}
 \end{equation}
 
@@ -153,39 +153,14 @@ AG therefore forces the decoder to ponder for two additional steps. The biggest 
 \end{itemize}
 
 
-%\begin{figure}[ht] 
-%	\begin{subfigure}[b]{0.5\linewidth}
-%		\centering
-%		\ifpdf
-%		\includegraphics[width=0.95\linewidth]{./figs/lookup/lt-trace-pdf}
-%		\else
-%		\includegraphics[width=0.95\linewidth]{./figs/lookup/lt-trace-eps}
-%		\fi
-%		\caption{AG Trace for Lookup Tables} 
-%		\label{ag_lt} 
-%		\vspace{2ex}
-%	\end{subfigure}%% 
-%	\begin{subfigure}[b]{0.5\linewidth}
-%		\centering
-%		\ifpdf
-%		\includegraphics[width=0.95\linewidth]{./figs/lookup/sr-trace-pdf}
-%		\else
-%		\includegraphics[width=0.95\linewidth]{./figs/lookup/sr-trace-eps}
-%		\fi 
-%		\caption{AG Trace for Symbol rewriting} 
-%		\label{ag_sr} 
-%		\vspace{2ex}
-%	\end{subfigure}
-%	\label{ag_trace_lt_sr}
-%\end{figure}
-
-
 \subsection{Accuracy}
 Since the lookup tables can be viewed as nested functions, accuracy of final output of the composition can be an adequate measure of model performance. However since we want to ensure that the model doesn't learn spurious patterns in data to land at an un-compositional solution, we want it to be accurate at each step of the composition. This hierarchical measure of accuracy is a viable test for the compositionality of the network. Therefore in all evaluations \textit{sequence accuracy} is the performance metric of the model.
 
-\subparagraph{Hyperparameters}: Based on the hyperparameter grid search conducted by \cite{Hupkes2018} I ran the experiments with the best hyperparameters for both baseline (RNN cell=GRU, Embedding size=128, Hidden layer size=512, optimizer=Adam \citep{KingmaB14}, learning rate=0.001, attention=pre-rnn \citep{Bahdanau2014}, alignment measure=mlp(section \ref{mtv:attn})).
+\subparagraph{Hyperparameters}: Based on the hyperparameter grid search conducted by \cite{Hupkes2018} I ran the experiments with the best hyperparameters for both the baseline - a vanilla seq2seq model (RNN cell=GRU, Embedding size=128, Hidden layer size=512, optimizer=Adam \citep{KingmaB14}, learning rate=0.001, attention=pre-rnn \citep{Bahdanau2014}, alignment measure=mlp(section \ref{mtv:attn})) and attentive guidance model (Embedding size=16, Hidden layer size=512, rest of the hyperparameters are same as the baseline).
 
 \subsection{Lookup Tables - Results}
+The impact of AG has been tested by making a comparative study of \textit{learned/guided} models and \textit{baseline} models. Both models are a standard seq2seq architecture as explained in section \ref{bck:s2s}. The only difference between a guided model and baseline is the presence of the extra attention loss term (equation \ref{eqn:ag}) along with the cross-entropy loss between predictions and targets. I sampled five different train and test sets and trained baseline and guided models on each one of them to account for stochasticity during different model runs. I present the results of both the models on the different test sets, discuss their zero shot generalization capabilities and end this section with an analysis of the impact of replacing the learned component of attentive guidance with the exact attention target vectors.
+
 \begin{figure}[ht] 
 	\begin{subfigure}[b]{0.5\linewidth}
 		\centering
@@ -213,15 +188,19 @@ Since the lookup tables can be viewed as nested functions, accuracy of final out
 	\label{lt_learning_curves}
 \end{figure}
 
-\begin{figure}
-	\begin{minipage}[t]{0.9\textwidth}
+Focusing on the loss development in the case of baseline (figure \ref{lt_baseline} and comparing it to the loss development in the case of guided model (figure \ref{lt_learned}) it can be easily concluded that attentive guidance offsets overfitting which is exhibited by the baseline on all the test sets. Further guided models converge much faster in comparison to the baseline models. Despite overfitting on the test sets, the baseline models perform reasonably well above chance level (which stands at 0.2\% for this task) on the \textit{heldout inputs} and \textit{heldout compositions} test splits. However in contrast to the approximately 60\% accuracy achieved by the baseline of these test sets, the guided model achieves over 99\% i.e they outperform the baseline by 65\%.
+
+As we move towards more difficult datasets viz. \textit{heldout tables} and \textit{new compositions} which require zero shot generalization the performance of baseline model progressively deteriorates. Guided models however still manage to achieve 90\% and 80\% sequence accuracy respectively on these datasets. 
+
+\begin{figure}[H]
+	\begin{minipage}[t]{\textwidth}
 		\centering
 		\ifpdf
 		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/lt-acc-pdf}
 		\else
 		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/lt-acc-eps}
 		\fi
-		\caption{\small Average Sequence Accuracies}
+		\caption{\small Average Sequence Accuracies. Error bars indicate maximum and minimum values achieved by the models.}
 		\label{res:lt-acc}
 	\end{minipage}
 \end{figure}
@@ -264,6 +243,12 @@ Since the lookup tables can be viewed as nested functions, accuracy of final out
 	\label{lrn_attn}
 \end{figure}
 
+\subparagraph{Analysis of Attention:} One of the most salient features of attention based seq2seq models (section \ref{mtv:attn}) is that it is very easy to visualize the attention vectors generated by the decoder, thereby making the model interpretable to some degree. Figures \ref{bs_attn} and \ref{lrn_attn} show that the diffused attention in baseline prohibits it from landing on a compositional solution. The green emissions are correct while the red emissions are incorrect at a given decoding step. Therefore in order to arrive at a compositional solution, the model would need to be compositional even at the intermediate steps. This is easily seen by comparing figures \ref{bs_attn2} and \ref{lrn_attn2}.
+
+\subparagraph{Longer compositions and hard guidance:} Longer compositions (of length 3 and above) provide the most challenging test case to the guided model and require absolute zero shot generalization from the guided model since it has never been exposed to a sample of length 3 or above. Looking at the attention plots of figure \ref{lrn_attn}, we see the guided model now exhibiting the same diffused attention pattern which was the characteristic of baseline attention in figure \ref{bs_attn}. Unsurprisingly the performance of the guided models on longer compositions declines rapidly (it is still higher than baseline) as can be seen from figure \ref{lt_longer}.
+However this observation led to experiments with \textit{hard guidance}. Hard guided model remove the need for learning the correct attention by providing the target attention vector at each decoding step. Therefore hard guidance can give some insight into the source of limitation of attentive guidance. As it turns out models trained with hard guidance gave perfect performance on longer heldout compositions, irrespective of the length of the composition (figure \ref{lt_longer1}). Even for a difficult case such as longer heldout tables, hard guidance exhibited high accuracy which had a small gradient with respect to length of composition. 
+
+%From these results of hard guidance it can argued that the current architectural setup of learning attentive guidance via. an attentive loss term in the final cross-entropy loss, might not be optimal. At the same time these results lend string support to the argument that attention is a key component of compositional learning. 
 
 \begin{figure}[ht] 
 	\begin{subfigure}[b]{0.5\linewidth}
@@ -357,11 +342,11 @@ The data-splits as furnished \citep{Weber2018} consists of a training data and d
 
 The datasets \textit{repeat, short and long} come from distributions which are different from the training distribution on which the model has learned the data structure. It is expected of a compositional learner that given the sufficient size of the training data it would be able to infer a pattern which is close to the underlying PCFG and therefore generalize of the test sets which comes from different distributions but have the same underlying structure.
 
-\subsection{AG Trace}
+\subsection{AG Trace}\label{sr:trace}
 Every input symbol leads to three emissions in the output sequence and each output symbol is generated by exactly one input symbol. Therefore for every emission in the output sequence the index of the input symbol responsible for the emission, is the trace. For every input there are three decoding steps and for all the three steps the decoder should attend to that particular input.
 
 
-\subsection{Accuracy}
+\subsection{Accuracy}\label{sr:acc_desc}
 Given the probabilistic nature of the symbol rewriting dataset it is not difficult to reason that sequence accuracy wouldn't be the ideal performance metric for this task. For instance A $\rightarrow$ A1\_1 B1\_2 C1\_1 and A $\rightarrow$ A1\_2 B1\_1 C1\_2 are both valid productions and since the data is probabilistic, the possibility of both the targets in the training data is equally likely. The accuracy of a prediction is evaluated in the following three steps:
 \begin{itemize}
 	\item Since every input symbol leads to emission of three output symbols, the output length should be 3*input length.
@@ -370,15 +355,40 @@ Given the probabilistic nature of the symbol rewriting dataset it is not difficu
 \end{itemize}
 If a prediction passes all these three checks in that order, the accuracy of that prediction is 1 else 0.
 
-\subparagraph{Hyperparameters}
+\subparagraph{Hyperparameters:} Based on the hyperparameter grid search conducted by \cite{Hupkes2018} I ran the experiments with the best hyperparameters for baseline models (RNN cell=GRU, Embedding size=64, Hidden layer size=64, optimizer=Adam \citep{KingmaB14}, learning rate=0.001, attention=pre-rnn \citep{Bahdanau2014}, alignment measure=mlp(section \ref{mtv:attn})) and the guided models (Embedding size=32, Hidden layer size=256, rest of the hyperparameters are same as in baseline). Additionally since the guided models are operating in a larger parameter space as compared to the baseline, I ran baseline models with the same hyperparameters as the guided models to ensure an unbiased comparison between them. Henceforth baselines (Embedding size=64, Hidden layer size=64) and (Embedding size=32, Hidden layer size=256) are referred to as \textit{baseline1} and \textit{baseline2} respectively.
 
 \subsection{Symbol Rewriting - Results}
+The experiments were set in accordance with the requirements outlined by \cite{Weber2018} that a model should learn the generalizable structure from the data i.e should infer the PCFG rules and should not learn spurious dependence between input and output lengths. The purpose of \textit{repeat}, \textit{short and long} datasets respectively is to test a model on these requirements. 50 runs for each of the two baselines and the guided model was carried out with different initialization and their results were then averaged. A comparative analysis of the baselines and guided model has been carried out. I conclude this section with an analysis of the effect of hard guidance.
 
-\begin{figure}
-	\begin{minipage}[t]{0.9\textwidth}
+Loss development on each of the 4 test sets, over the course of training as shown in figure \ref{sr-all-loss} brings forth an interesting observation apart from the fact that guided models converge faster than the baselines. Even the guided (or learned) model seems to be overfitting to the training. However that is not the case since the data is probabilistic and one input can have multiple outputs. Loss therefore is not the best benchmark for comparing the performance of the three models.
+
+\begin{figure}[ht]
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=0.95\linewidth]{./figs/sr/std-loss-eps}
+		\caption{Standard}\label{std-loss}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=0.95\linewidth]{./figs/sr/short-loss-eps}
+		\caption{Short}\label{short-loss}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=0.95\linewidth]{./figs/sr/repeat-loss-eps}
+		\caption{Repeat}\label{repeat-loss}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=0.95\linewidth]{./figs/sr/long-loss-eps}
+		\caption{Long}\label{long-loss}
+	\end{subfigure}
+	\caption{Average NLL Loss over 50 runs of the selected configuration of all three models}\label{sr-all-loss}
+\end{figure}
+
+Focusing now on the accuracy (symbol rewriting accuracy as described in section \ref{sr:acc_desc}), in figure \ref{res:sr-acc}, we can see that our results for baseline are fairly consistent with the ones presented by \cite{Weber2018}. Baseline2 in fact is almost at par with guided model in the standard (same distribution as training data) and repeat(similar to standard with repetition of input symbols allowed) datasets, but it doesn't satisfy the second requirement outlined by the authors in the original paper. It can't generalize to test sets where the input length changes as compared to training data. Baseline1 on the other hand generalizes relatively better to all test sets, although the accuracy is still significantly low in comparison to guided model.
+
+\begin{figure}[H]
+	\begin{minipage}[t]{\textwidth}
 		\centering
 		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/sr/sr-seq-eps}
-		\caption{\small Sequence accuracies for symbol rewriting test splits}
+		\caption{\small Sequence accuracies for symbol rewriting test splits. Error bars indicate maximum and minimum values achieved by the models.}
 		\label{res:sr-acc}
 	\end{minipage}
 \end{figure}
@@ -401,3 +411,30 @@ If a prediction passes all these three checks in that order, the accuracy of tha
 	\caption{Attention plots for symbol rewriting}
 	\label{sr_repeat}
 \end{figure}
+\subparagraph{Analysis of Attention:} Similar to the lookup tables case the baseline attention is diffused over the entire input sequence in stark contrast to the attention of guided models, which have perfectly learned the trace for the symbol rewriting task as outlined in section \ref{sr:trace}. It can be argued by looking at figure \ref{sr_repeat}, that the lack of attentive guidance causes baseline to memorize spurious patterns from the data and that's why after two successful production for the input symbol $C$ it falters when it sees the same symbol for a third time.
+
+\subparagraph{Solving symbol rewriting with hard guidance:} The guided models perform better on the test splits as compared to the baselines and as can be seen from figure \ref{sr-all-acc} they do so while showing less variance than the baseline models. However they still can't overcome learning the dependencies between the input and output length and this is reflected in their poor performance on the longer test data. Models trained with hard guidance however were able to reach almost perfect accuracy on all the test splits.
+
+\begin{figure}[H]
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=0.95\linewidth]{./figs/sr/std-acc-eps}
+		\caption{Standard}\label{std-acc}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=0.95\linewidth]{./figs/sr/short-acc-eps}
+		\caption{Short}\label{short-acc}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=0.95\linewidth]{./figs/sr/repeat-acc-eps}
+		\caption{Repeat}\label{repeat-acc}
+	\end{subfigure}
+	\begin{subfigure}{0.5\linewidth}
+		\includegraphics[width=0.95\linewidth]{./figs/sr/long-acc-eps}
+		\caption{Long}\label{long-acc}
+	\end{subfigure}
+	\caption{Average accuracy over 50 runs of the selected configuration of all three models}\label{sr-all-acc}
+\end{figure}
+
+\section{Discussion}
+
+This chapter introduced the concept of Attentive Guidance which is a novel concept to \textit{nudge} a seq2seq network in the direction of compositional solutions. The proposed method was tested in two domains, one of which involved sequential application of functions to solve a nested or composed function while the other one required a model to infer the rules of the grammar underlying a dataset in order to be able to generalize test data which differs significantly from the training data while following the same rules. We saw that hard guidance was actually able to solve both the problems and generalize to unseen test data and this bolsters the argument that attention or more precisely the guidance of it is central to finding compositional solutions. At the same time, the inability of models trained with AG to scale up to complex datasets in a zero shot fashion indicates that the current architecture and the method of learning the guidance via. cross entropy loss isn't optimal and we need to come up with more robust mechanisms to guide attention.
