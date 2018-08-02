@@ -3,12 +3,12 @@ This chapter provides a brief technical overview of the models that we will freq
 
 The key concepts of \textbf{attention} and \textbf{pondering}, whose conceptualization lies in the study of human reasoning are presented in this chapter as well. I elaborate on how these concepts have been the crucial first steps towards making deep neural networks think like human beings, thereby making their decision making process more interpretable. These concepts also serve as the backbone for the first major contribution os this thesis, which is presented in chapter \ref{Chapter:proposals}.
 
-This chapter concludes with a overview of formal language theory which is a prerequisite for understanding the theory behind creation of a new language (the second major contribution os this thesis) which I present in section \ref{datasets:mt}.
+This chapter concludes with a overview of formal language theory which is a prerequisite for understanding the theory behind creation of a new language (the second major contribution os this thesis) which I present in chapter \ref{Chapter:datasets}.
 
 \section{RNN - A non linear dynamical system} \label{RNN}
-We frequently encounter data that is temporal in nature. A few obvious examples would  be, audio signals, videos signals, time series of a stock price and natural language. While traditional feed-forward neural networks such as a multi-layer perceptron (MLP) \citep{rosenblatt1962} are excellent at non linear curve fitting and classification tasks, it is unclear as to how they will approach the problem of predicting the value of a temporal signal $T$ at time $t$ given the states $T_{0}, T_{1}....T_{t-1}$ such that the states over time are not i.i.d. This is owing to the fact that a conventional feed-forward network  is acyclic and thus doesn't have any feedback loop rendering it memoryless. Human beings arguably solve such problems by compressing and storing the previous states in a \lq working \rq{} memory,\citep{Miller1956} \lq chunking \rq{} it \citep{neath2013} \citep{craik2000} and predicting the state $T_t$. 
+We frequently encounter data that is temporal in nature. A few examples would  be, audio signals, videos signals, time series of a stock price and natural language. While traditional feed-forward neural networks such as a multi-layer perceptron (MLP) \citep{rosenblatt1962} are excellent at non linear curve fitting and classification tasks, it is unclear as to how they will approach the problem of predicting the value of a temporal signal $T$ at time $t$ given the states $T_{0}, T_{1}....T_{t-1}$ such that the states over time are not i.i.d. This is owing to the fact that a conventional feed-forward network  is acyclic and thus doesn't have any feedback loop rendering it memoryless. Human beings arguably solve such problems by compressing and storing the previous states in a \lq working \rq{} memory,\citep{Miller1956} \lq chunking \rq{} it \citep{neath2013} \citep{craik2000} and predicting the state $T_t$. 
 
-A Recurrent neural network (RNN) \citep{Hopfield1982}\citep{Elman1990} overcomes this restriction by having feedback loops which allow information to be carried from the current time step to the next. While the notion of implementing memory via feedback loops might seem daunting at first the architecture is refreshingly very simple. In a process known as unrolling a RNN can be seen as a sequence of MLPs (at different time steps) stacked together. More specifically, RNN maintains a memory across time-steps by projecting the information at any given time step $t$ onto a hidden(latent) state through parameters $\theta$ which are shared across different time-steps. Figure \ref{bck:rnn} shows a rolled and unrolled recurrent and the equations of an RNN are as follows: and  network.
+A Recurrent neural network (RNN) \citep{Hopfield1982}\citep{Elman1990} overcomes this restriction by having feedback loops which allow information to be carried from the current time step to the next. While the notion of implementing memory via feedback loops might seem daunting at first the architecture is refreshingly simple. In a process known as unrolling a RNN can be seen as a sequence of MLPs (at different time steps) stacked together. More specifically, RNN maintains a memory across time-steps by projecting the information at any given time step $t$ onto a hidden(latent) state through parameters $\theta$ which are shared across different time-steps. Figure \ref{bck:rnn} shows a rolled and unrolled recurrent and the equations of an RNN are as follows: and  network.
 
 \begin{equation}\label{nn-dynam}
 c_t = tanh(Ux_t + \theta c_{t-1}),
@@ -106,7 +106,7 @@ owing to this problem of vanishing (or exploding) gradients a vanilla RNN can't 
 \fi
 
 \section{Gated RNNs}
-The problem of vanishing (or exploding) gradients makes a vanilla RNN unsuitable for long term dependency modeling. However if for instance the RNN was to compute an identity function then the gradient computation wouldn't vanish or explode since the Jacobian is simply an identity matrix. Now while an identity initialization of recurrent weights by itself isn't very interesting it brings us to the underlying principle behind gated architectures i.e. the mapping from memory state at one time step to the next is close to identity function.
+The problem of vanishing (or exploding) gradients makes a vanilla RNN unsuitable for long term dependency modeling. However if for instance the RNN was to compute an identity function then the gradient computation wouldn't vanish or explode since the Jacobian is simply an identity matrix. Now while an identity initialization of recurrent weights by itself isn't  interesting it brings us to the underlying principle behind gated architectures i.e. the mapping from memory state at one time step to the next is close to identity function.
 
 \begin{figure}[ht] 
 	\begin{subfigure}[b]{0.5\linewidth}
@@ -252,21 +252,39 @@ where:
 where $e$ is a alignment/matching/similarity measure between the decoder hidden state $h^{(t-1)}$ i.e. just before the emission of output $x^{(t)}$. The alignment function can be a dot product of the two vectors or a feed-forward network that is jointly trained with the encoder-decoder model. The $\alpha_{tj}$ is an attention vector that weighs the encoder outputs at a given decoding step. \cite{Vaswani2017} view the entire process of attention and context generation as a series of functions applied to the tupe (query, key, value), with the first step being an \textbf{attentive read} step where a scalar matching score between the query and key ($h^{(t-1)}, s^j$) is calculated followed by computation of attention weights $\alpha_{tj}$. Weighted averaged of the \lq values{}\rq\ using the attention weights is then done in the \textbf{aggregation} step.  
 
 
-\section{Pondering}
+\section{Pondering}\label{bck:ponder}
 
-\begin{figure}
-	\begin{minipage}[t]{\textwidth}
-		\ifpdf
-		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/act-pdf}
-		\else
-		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/act-eps}
-		\fi
-		\caption{\small Adaptive Computation Time}
-		\label{mtv:ponder}
-	\end{minipage}
+%\begin{figure}
+%	\begin{minipage}[t]{\textwidth}
+%		\ifpdf
+%		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/act-pdf}
+%		\else
+%		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/act-eps}
+%		\fi
+%		\caption{\small Adaptive Computation Time}
+%		\label{mtv:ponder}
+%	\end{minipage}
+%\end{figure}
+
+\begin{figure}[ht] 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{./figs/act1-eps}
+		\caption{Fixed Computation Time}
+		\label{fixed} 
+		\vspace{4ex}
+	\end{subfigure}%% 
+	\begin{subfigure}[b]{0.5\linewidth}
+		\centering
+		\includegraphics[width=0.95\linewidth]{./figs/act2-eps}
+		\caption{Adpative Computation Time} 
+		\label{adaptive}  
+		\vspace{4ex}
+	\end{subfigure}
+	\caption{\small Schematic of Adaptive Computation Time}
+	\label{mtv:ponder}
 \end{figure}
-
-The task of positioning a problem and solving belong to different classes of time complexity with the latter requiring more time than the former. \cite{Graves2016} argued that for a given RNN unit it is reasonable to allow for variable computation time for each input in a sequence since some parts of the input might be inherently more complex than the others and thereby require more computational steps. A very good example of this would be \textit{spaces between words and ends of sequences}. 
+The task of positioning a problem and solving belong to different classes of time complexity with the latter requiring more time than the former. \cite{Graves2016} argued that for a given RNN unit it is reasonable to allow for variable computation time for each input in a sequence since some parts of the input might be inherently more complex than the others and thereby require more computational steps. A good example of this would be \textit{spaces between words and ends of sequences}. 
 
 Human beings overcome similar obstacles by allocating more time to a difficult problem as compared to a simpler problem. Therefore a naive solution would be to allow a RNN unit to have a large number of hidden state transitions (without penalty of amount of computations performed) before emitting an output on a given input. The network would therefore learn to allocate as much time as possible to minimize its error thereby making it extremely inefficient. \cite{Graves2016} proposed the concept of \textbf{adaptive computation time} to have a trade-off between accuracy and computational efficacy in order to determine the minimum number of state transitions required to solve a problem \footnote{Theoretically this is akin to halting on a given problem or finding the Kolmogorov Complexity of the data, both of which are unsolvable}.
 

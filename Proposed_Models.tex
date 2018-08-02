@@ -5,7 +5,7 @@ In this chapter I introduce the concept of \textbf{Attentive Guidance (AG)} whic
 %(models capable of zero shot generalizing to unseen inputs on known compositions). Additional these small percentage of models also only showed a weak form of composition wherein if for instance t1, t2 are atomic tables, then a composition task t1 t2 is indexed to prompt t1t2, instead of solving in a nested fashion viz. t1(t2(.)). (Get feedback here, see if this is clear)
 
 \section{Attentive Guidance}
-
+Human beings have a propensity for compositional solutions \citep{NIPS2016_6130} while deep neural networks lean towards pattern recognition and memorization \citep{Marcus2018}. It is therefore reasonable to assume that for human level generalization learning in a systematic way is of essence. Attentive guidance aims to induce systematic learning in seq2seq networks by allowing them to focus on the primitive components of a complex expression and the way they are related to each other. The following sections elaborate on the motivation behind attentive guidance and its implementation.
 
 \subsection{Inspiration} 
 
@@ -136,7 +136,7 @@ We generated eight distinct atomic tables $t1......t8$ and work with composition
 %, trim={15mm, 5mm, 35mm, 15mm}, clip
 In accordance with the data split described above we present the distribution of all compositions in the train and various test sets. It can be seen that the test sets \lq heldout\_tables\rq{} and \lq new\_compositions \rq{} are the most difficult and require zero-shot generalisation owing to their significantly different distribution as compared to \lq train \rq{}.
 
-\subsection{AG Trace}
+\subsection{AG Trace}\label{lt:ponder}
 As explained in section \ref{pm:ag-ponder} attentive guidance can help in mocking the pondering. For a lookup table composition of the form \lq $((000)t3)t1$ AG enforces pondering as follows:
 \begin{equation}
 t1(111) = 100 \qquad t3(000) = 111 \qquad ((000)t3)t1 = 100,
@@ -189,12 +189,8 @@ The impact of AG has been tested by making a comparative study of \textit{learne
 	\label{lt_learning_curves}
 \end{figure}
 
-Focusing on the loss development in the case of baseline (figure \ref{lt_baseline} and comparing it to the loss development in the case of guided model (figure \ref{lt_learned}) it can be easily concluded that attentive guidance offsets overfitting which is exhibited by the baseline on all the test sets. Further guided models converge much faster in comparison to the baseline models. Despite overfitting on the test sets, the baseline models perform reasonably well above chance level (which stands at 0.2\% for this task) on the \textit{heldout inputs} and \textit{heldout compositions} test splits. However in contrast to the approximately 60\% accuracy achieved by the baseline of these test sets, the guided model achieves over 99\% i.e they outperform the baseline by 65\%.
-
-As we move towards more difficult datasets viz. \textit{heldout tables} and \textit{new compositions} which require zero shot generalization the performance of baseline model progressively deteriorates. Guided models however still manage to achieve 90\% and 80\% sequence accuracy respectively on these datasets. 
-
 \begin{figure}[H]
-	\begin{minipage}[t]{\textwidth}
+	\begin{minipage}[t]{0.9\textwidth}
 		\centering
 		\ifpdf
 		\includegraphics[width=\linewidth,keepaspectratio=true]{./figs/lookup/lt-acc-pdf}
@@ -205,6 +201,9 @@ As we move towards more difficult datasets viz. \textit{heldout tables} and \tex
 		\label{res:lt-acc}
 	\end{minipage}
 \end{figure}
+
+Focusing on the loss development in the case of baseline (figure \ref{lt_baseline} and comparing it to the loss development in the case of guided model (figure \ref{lt_learned}) it can be easily concluded that attentive guidance offsets overfitting which is exhibited by the baseline on all the test sets. Further guided models converge much faster in comparison to the baseline models. Despite overfitting on the test sets, the baseline models perform reasonably well above chance level (which stands at 0.2\% for this task) on the \textit{heldout inputs} and \textit{heldout compositions} test splits. However in contrast to the approximately 60\% accuracy achieved by the baseline of these test sets, the guided model achieves over 99\% i.e they outperform the baseline by 65\%. As we move towards more difficult datasets viz. \textit{heldout tables} and \textit{new compositions} which require zero shot generalization the performance of baseline model progressively deteriorates. Guided models however still manage to achieve 90\% and 80\% sequence accuracy respectively on these datasets. 
+
 
 \begin{figure}[ht] 
 	\begin{subfigure}[b]{0.5\linewidth}
@@ -225,7 +224,7 @@ As we move towards more difficult datasets viz. \textit{heldout tables} and \tex
 	\label{bs_attn}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
 	\begin{subfigure}[b]{0.5\linewidth}
 		\centering
 		\includegraphics[width=0.95\linewidth]{./figs/lookup/attn/learned1-eps}
@@ -246,12 +245,9 @@ As we move towards more difficult datasets viz. \textit{heldout tables} and \tex
 
 \subparagraph{Analysis of Attention:} One of the most salient features of attention based seq2seq models (section \ref{mtv:attn}) is that it is easy to visualize the attention vectors generated by the decoder, thereby making the model interpretable to some degree. Figures \ref{bs_attn} and \ref{lrn_attn} show that the diffused attention in baseline prohibits it from landing on a compositional solution. The green emissions are correct while the red emissions are incorrect at a given decoding step. Therefore in order to arrive at a compositional solution, the model would need to be compositional even at the intermediate steps. This is easily seen by comparing figures \ref{bs_attn2} and \ref{lrn_attn2}.
 
-\subparagraph{Longer compositions and hard guidance:} Longer compositions (of length 3 and above) provide the most challenging test case to the guided model and require absolute zero shot generalization from the guided model since it has never been exposed to a sample of length 3 or above. Looking at the attention plots of figure \ref{lrn_attn}, we see the guided model now exhibiting the same diffused attention pattern which was the characteristic of baseline attention in figure \ref{bs_attn}. Unsurprisingly the performance of the guided models on longer compositions declines rapidly (it is still higher than baseline) as can be seen from figure \ref{lt_longer}.
-However this observation led to experiments with \textit{hard guidance}. Hard guided model remove the need for learning the correct attention by providing the target attention vector at each decoding step. Therefore hard guidance can give some insight into the source of limitation of attentive guidance. As it turns out models trained with hard guidance gave perfect performance on longer heldout compositions, irrespective of the length of the composition (figure \ref{lt_longer1}). Even for a difficult case such as longer heldout tables, hard guidance exhibited high accuracy which had a small gradient with respect to length of composition. 
-
 %From these results of hard guidance it can argued that the current architectural setup of learning attentive guidance via. an attentive loss term in the final cross-entropy loss, might not be optimal. At the same time these results lend string support to the argument that attention is a key component of compositional learning. 
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
 	\begin{subfigure}[b]{0.5\linewidth}
 		\centering
 		\includegraphics[width=0.95\linewidth]{./figs/lookup/attn/longer2-eps}
@@ -270,7 +266,7 @@ However this observation led to experiments with \textit{hard guidance}. Hard gu
 	\label{attn_longer}
 \end{figure}
 
-\begin{figure}[ht] 
+\begin{figure}[H] 
 	\begin{subfigure}[b]{0.5\linewidth}
 		\centering
 		\includegraphics[width=0.95\linewidth]{./figs/lookup/heldout_compositions_eps}
@@ -288,6 +284,11 @@ However this observation led to experiments with \textit{hard guidance}. Hard gu
 	\caption{Sequence Accuracy for Longer Compositions}
 	\label{lt_longer}
 \end{figure}
+
+\subparagraph{Longer compositions and hard guidance:} Longer compositions (of length 3 and above) provide the most challenging test case to the guided model and require absolute zero shot generalization from the guided model since it has never been exposed to a sample of length 3 or above. Looking at the attention plots of figure \ref{lrn_attn}, we see the guided model now exhibiting the same diffused attention pattern which was the characteristic of baseline attention in figure \ref{bs_attn}. Unsurprisingly the performance of the guided models on longer compositions declines rapidly (it is still higher than baseline) as can be seen from figure \ref{lt_longer}.
+However this observation led to experiments with \textit{hard guidance}. Hard guided model remove the need for learning the correct attention by providing the target attention vector at each decoding step. Therefore hard guidance can give some insight into the source of limitation of attentive guidance. As it turns out models trained with hard guidance gave perfect performance on longer heldout compositions, irrespective of the length of the composition (figure \ref{lt_longer1}). Even for a difficult case such as longer heldout tables, hard guidance exhibited high accuracy which had a small gradient with respect to length of composition.
+
+Having tested AG on a dataset that explicitly enforces compositional solution for generalization,it can be concluded that attentive guidance forces a model to discover a compositional solution. This is owing to the fact that AG was able to generalize to compositions which are significantly different from what the model was trained on, but could be solved by solving the atomic steps in the composition sequentially . I now test AG on a dataset for which the rules are implicit and require a model to infer them from a training data which is considerably larger in size to the lookup table data. 
 
 
 
@@ -414,8 +415,6 @@ Focusing now on the accuracy (symbol rewriting accuracy as described in section 
 \end{figure}
 \subparagraph{Analysis of Attention:} Similar to the lookup tables case the baseline attention is diffused over the entire input sequence in stark contrast to the attention of guided models, which have perfectly learned the trace for the symbol rewriting task as outlined in section \ref{sr:trace}. It can be argued by looking at figure \ref{sr_repeat}, that the lack of attentive guidance causes baseline to memorize spurious patterns from the data and that's why after two successful production for the input symbol $C$ it falters when it sees the same symbol for a third time.
 
-\subparagraph{Solving symbol rewriting with hard guidance:} The guided models perform better on the test splits as compared to the baselines and as can be seen from figure \ref{sr-all-acc} they do so while showing less variance than the baseline models. However they still can't overcome learning the dependencies between the input and output length and this is reflected in their poor performance on the longer test data. Models trained with hard guidance however were able to reach almost perfect accuracy on all the test splits.
-
 \begin{figure}[H]
 	\begin{subfigure}{0.5\linewidth}
 		\includegraphics[width=0.95\linewidth]{./figs/sr/std-acc-eps}
@@ -436,6 +435,7 @@ Focusing now on the accuracy (symbol rewriting accuracy as described in section 
 	\caption{Average accuracy over 50 runs of the selected configuration of all three models}\label{sr-all-acc}
 \end{figure}
 
+\subparagraph{Solving symbol rewriting with hard guidance:} The guided models perform better on the test splits as compared to the baselines and as can be seen from figure \ref{sr-all-acc} they do so while showing less variance than the baseline models. However they still can't overcome learning the dependencies between the input and output length and this is reflected in their poor performance on the longer test data. Models trained with hard guidance however were able to reach almost perfect accuracy on all the test splits.
 \section{Discussion}\label{pm:disc}
 
 This chapter introduced the concept of Attentive Guidance which is a novel concept to \textit{nudge} a seq2seq network in the direction of compositional solutions. The proposed method was tested in two domains, one of which involved sequential application of functions to solve a nested or composed function while the other one required a model to infer the rules of the grammar underlying a dataset in order to be able to generalize test data which differs significantly from the training data while following the same rules. We saw that hard guidance was actually able to solve both the problems and generalize to unseen test data and this bolsters the argument that attention or more precisely the guidance of it is central to finding compositional solutions. At the same time, the inability of models trained with AG to scale up to complex datasets in a zero shot fashion indicates that the current architecture and the method of learning the guidance via. cross entropy loss isn't optimal and we need to come up with more robust mechanisms to guide attention.

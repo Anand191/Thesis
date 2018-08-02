@@ -114,7 +114,7 @@ The distribution of the boolean operators (i.e. the number of tasks per operator
 
 \section{Experimental Setup}
 
-\subsection{AG Trace}
+\subsection{AG Trace}\label{mt:ponder}
 The trace for the hard guidance of micro-tasks is different for verify and produce cases owing to the fact that verify has a single emission (yes/no token) while produce has multiple emissions. Furthermore pondering is explicitly mocked here by augmenting the output with a ponder token. The ponder token helps the network in focusing on the summarization of the entire string and the meta-information i.e. verify/produce, before moving on to the emission of the actual targets. The details of the trace are as follows:
 
 \textbf{Verify}. Here we have a trace of length 3 with the focus at end of string, meta-information and end of witness respectively. While the first two indices of the trace correspond to the ponder tokens in the output, the last index corresponds to the decision token which is the actual target. The trace is visualized in figure \ref{ag_ver}.
@@ -262,4 +262,4 @@ The baseline clearly fails on the production tasks, as does the learned guidance
 \section{Discussion}\label{mt:disc}
 The huge chasm between the performance of the models with attentive guidance and hard guided models again brings to fore the argument I raised in section \ref{pm:disc}, that the current architectural setting is not optimal for learning the correct trace. This is substantiated by the attention plot for learned model in figure \ref{learn-prod}. The model's attention is diffused over the three target emissions and it leads to one wrong emission in the sequence. One striking observation from the attention plot of baseline for verification task (figure \ref{base-ver}) is that it utilizes only the witness string to make its decision.
 
-It has already been discussed in the introduction to this chapter that the language $L$ proposed in this dataset $\notin NP$. However even for this language the results indicate that search (production) is more difficult than decision (verification) for a prover (a vanilla seq2seq model in our case). But the same vanilla seq2seq with additional hardcoded attention vectors can solve the search problem to a reasonable degree. This warrants additional investigation for effectiveness of hard guidance in languages which are higher up in the polynomial hierarchy \citep{arora2009computational}.  
+It has already been discussed in the introduction to this chapter that the language $L$ proposed in this dataset $\notin NP$. However even for this language the results indicate that search (production) is more difficult than decision (verification) for a prover (a vanilla seq2seq model in our case). But the same vanilla seq2seq with additional hardcoded attention vectors can solve the search problem to a reasonable degree.
