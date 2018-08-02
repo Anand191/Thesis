@@ -1,6 +1,6 @@
 \begin{appendix}
 	
-\chapter{Algorithm for balanced train set}\label{Chapter:results}
+\chapter{Algorithm for balancing lookup tables train set}\label{Chapter:results}
 
 Since the dataset for the lookup tables is small -- even if length 2 compositions was created using tables \textit{t1} to \textit{t8}, there could only be 64 compositions which would bijectively map 8 3 bit inputs to 3 bit outputs thereby leading to a total of 512 samples only -- we try to ensure that the combinations present in the training data are uniformly distributed while simultaneously keeping the distribution of the output strings in the training data uniform as well. This ensures that the model doesn't get biased towards any particular composition or an output string. As has been explained in section \ref{lt:splits}, the heldout inputs set is created by randomly taking out 2 inputs for each of the 28 compositions in training. Therefore the resultant training set should have the following properties:
 \begin{itemize}
