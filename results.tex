@@ -2,7 +2,7 @@
 	
 \chapter{Algorithm for balancing lookup tables train set}\label{Chapter:results}
 
-Since the dataset for the lookup tables is small -- even if length 2 compositions was created using tables \textit{t1} to \textit{t8}, there could only be 64 compositions which would bijectively map 8 3 bit inputs to 3 bit outputs thereby leading to a total of 512 samples only -- we try to ensure that the combinations present in the training data are uniformly distributed while simultaneously keeping the distribution of the output strings in the training data uniform as well. This ensures that the model doesn't get biased towards any particular composition or an output string. As has been explained in section \ref{lt:splits}, the heldout inputs set is created by randomly taking out 2 inputs for each of the 28 compositions in training. Therefore the resultant training set should have the following properties:
+Since the dataset for the lookup tables is small -- even if length 2 compositions was created using tables \textit{t1} to \textit{t8}, there could only be 64 compositions which would bijectively map 8 3 bit inputs to 3 bit outputs thereby leading to a total of 512 samples only -- we try to ensure that the compositions present in the training data are uniformly distributed while simultaneously keeping the distribution of the output strings in the training data uniform as well. This ensures that the model doesn't get biased towards any particular composition or an output string. As has been explained in section \ref{lt:splits}, the heldout inputs set is created by randomly taking out 2 inputs for each of the 28 compositions in training. Therefore the resultant training set should have the following properties:
 \begin{itemize}
 	\item The total number of data points  $= 28*6 = 168$.
 	\item There are 8 outputs. The total number of compositions that lead to a particular output $=168/8 = 21$.
@@ -18,7 +18,7 @@ Since the dataset for the lookup tables is small -- even if length 2 composition
 		\FOR {i in range [0, 21)}
 		\FOR {output in dataframe column}
 		\STATE Sample composition
-		\IF{composition \textbf{not in} row[i] AND composition \textbf{not in} output column AND Y[composition] <21 }
+		\IF{composition \textbf{not in} row[i] AND composition \textbf{not in} output column AND Y[composition] $<$ 21 }
 		\STATE dataframe[i][output] = composition
 		\STATE Y[composition] += 1
 		\ELSE
